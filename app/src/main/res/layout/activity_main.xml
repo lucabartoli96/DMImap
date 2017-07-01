@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ing_sw.frith.dmimap.MainActivity">
+
+
+    <LinearLayout
+        android:layout_width="368dp"
+        android:layout_height="495dp"
+        android:fillViewport="true"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="57dp"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:layout_weight="0.05">
+
+            <TextView
+                android:id="@+id/pos"
+                android:layout_width="148dp"
+                android:layout_height="58dp"
+                android:layout_weight="0.23"
+                android:text="Where are you?" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:layout_weight="0.06"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/des"
+                android:layout_width="146dp"
+                android:layout_height="63dp"
+                android:text="Where are you going?"
+                android:layout_weight="0.25" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/map_window"
+            android:layout_width="match_parent"
+            android:layout_height="371dp"
+            android:background="@android:color/background_dark"
+            android:visibility="visible">
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
