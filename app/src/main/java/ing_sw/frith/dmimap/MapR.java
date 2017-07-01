@@ -19,36 +19,35 @@ import static android.content.ContentValues.TAG;
 
 
 
-public class Parser {
+public final class F {
 
 
 
 
-    private JSONObject json;
+    private static JSONObject json;
 
 
 
-
-    public Parser(String json) {
+    public static void createParser(String json_string) {
 
         try {
 
-            this.json = new JSONObject(json);
+            json = new JSONObject(json_string);
 
         }catch(JSONException e) {
 
-            Log.d(TAG, "Parser: Impossible to create JSON parser!\n" + e.toString());
+            Log.d(TAG, "F: Impossible to create JSON parser!\n" + e.toString());
 
         }
 
-        Log.d(TAG, "Parser: json object created.");
+        Log.d(TAG, "F: json object created.");
+
     }
 
 
 
 
-
-    public int getFloorsNumber() {
+    public static int getFloorsNumber() {
 
         int retval = 0;
 
@@ -58,7 +57,7 @@ public class Parser {
 
         }catch(JSONException e) {
 
-            Log.d(TAG, "Parser: Can't find floors_number!\n" + e.toString());
+            Log.d(TAG, "F: Can't find floors_number!\n" + e.toString());
         }
 
         Log.d(TAG, "getFloorsNumber: " + retval);
@@ -71,7 +70,7 @@ public class Parser {
 
 
 
-    public ArrayList<ArrayList<MapNode>> getNodes() {
+    public static MapNodeList getNodes() {
 
 
         ArrayList<ArrayList<MapNode>> nodes = new ArrayList<>();
@@ -117,11 +116,8 @@ public class Parser {
 
         Log.d(TAG, "getNodes: " + nodes.toString());
 
-        return nodes;
-
+        return new MapNodeList(nodes);
 
     }
-
-
 
 }
