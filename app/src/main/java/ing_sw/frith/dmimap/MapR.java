@@ -1,13 +1,17 @@
 package ing_sw.frith.dmimap;
 
 
+import android.content.res.Resources;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import static android.content.ContentValues.TAG;
 
@@ -19,12 +23,44 @@ import static android.content.ContentValues.TAG;
 
 
 
-public final class F {
+
+
+public final class MapR {
 
 
 
 
     private static JSONObject json;
+
+
+
+
+    public static String readDescriptor(Resources res) {
+
+
+        InputStream stream;
+        String string = "";
+
+        try {
+
+            stream = res.getAssets().open("map_description.json");
+            string = new Scanner(stream).useDelimiter("\\Z").next();
+
+        }catch(IOException e) {
+
+            Log.d(TAG, "onCreate: Error while opening map_description.json\n" + e.toString());
+            System.exit(0);
+        }
+
+        Log.d(TAG, "createParser: MapR created!");
+
+        return string;
+
+    }
+
+
+
+
 
 
 
@@ -36,13 +72,15 @@ public final class F {
 
         }catch(JSONException e) {
 
-            Log.d(TAG, "F: Impossible to create JSON parser!\n" + e.toString());
+            Log.d(TAG, "MapR: Impossible to create JSON parser!\n" + e.toString());
 
         }
 
-        Log.d(TAG, "F: json object created.");
+        Log.d(TAG, "MapR: json object created.");
 
     }
+
+
 
 
 
@@ -57,13 +95,15 @@ public final class F {
 
         }catch(JSONException e) {
 
-            Log.d(TAG, "F: Can't find floors_number!\n" + e.toString());
+            Log.d(TAG, "MapR: Can't find floors_number!\n" + e.toString());
         }
 
         Log.d(TAG, "getFloorsNumber: " + retval);
 
         return retval;
     }
+
+
 
 
 

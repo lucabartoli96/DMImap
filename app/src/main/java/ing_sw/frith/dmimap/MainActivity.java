@@ -28,9 +28,6 @@ public class MainActivity extends AppCompatActivity {
         private RelativeLayout map_window;
         private Map      map;
 
-        //Files
-        Parser parser;
-
 
 
 
@@ -43,41 +40,16 @@ public class MainActivity extends AppCompatActivity {
 
             res = getResources();
 
-            parser = createParser();
+
+            String description = MapR.readDescriptor(res);
+            MapR.createParser(description);
+
 
             initUIObjects();
 
             initMap();
 
 
-
-        }
-
-
-
-
-
-
-
-        private Parser createParser() {
-
-            InputStream stream;
-            String string = "";
-
-            try {
-
-                stream = res.getAssets().open("map_description.json");
-                string = new Scanner(stream).useDelimiter("\\Z").next();
-
-            }catch(IOException e) {
-
-                Log.d(TAG, "onCreate: Error while opening map_description.json\n" + e.toString());
-                System.exit(0);
-            }
-
-            Log.d(TAG, "createParser: Parser created!");
-            
-            return new Parser(string);
 
         }
 
@@ -105,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
         private void initMap() {
 
-            map = new Map(this, parser.getFloorsNumber(), parser.getNodes());
+            map = new Map(this, MapR.getFloorsNumber(), MapR.getNodes());
             map_window.addView(map);
 
             Log.d(TAG, "initMap!");

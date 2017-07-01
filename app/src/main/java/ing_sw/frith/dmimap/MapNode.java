@@ -56,11 +56,19 @@ public class MapNode extends RectF implements UpdatableMapItem {
 
     }
 
+
+
+
+
     public int getColor() {
 
         return color;
 
     }
+
+
+
+
 
 
 
@@ -76,6 +84,8 @@ public class MapNode extends RectF implements UpdatableMapItem {
 
 
 
+
+
     public void unselect() {
 
         if(selected) {
@@ -84,6 +94,10 @@ public class MapNode extends RectF implements UpdatableMapItem {
             color    = UNSELECTED_COLOR;
         }
     }
+
+
+
+
 
 
     @Override

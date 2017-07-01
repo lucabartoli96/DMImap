@@ -5,14 +5,11 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-
-import java.util.ArrayList;
 
 
 
@@ -44,8 +41,7 @@ public class Map extends View {
 
 
     //variables for nodes
-    private ArrayList<ArrayList<MapNode>> nodes;
-    private Paint nodePaint;
+    private MapNodeList nodes;
 
 
 
@@ -57,7 +53,7 @@ public class Map extends View {
 
 
 
-    public Map(Context context, int floorsNumber, ArrayList<ArrayList<MapNode>> nodes) {
+    public Map(Context context, int floorsNumber, MapNodeList nodes) {
 
         super(context);
 
@@ -101,8 +97,7 @@ public class Map extends View {
         D_y = 0;
 
 
-        //variables fro nodes
-        nodePaint = new Paint();
+        //variables for nodes
         this.nodes = nodes;
 
     }
@@ -120,7 +115,7 @@ public class Map extends View {
         if(l == 0) {
 
             l = Math.min(canvas.getHeight(), canvas.getWidth());
-            update_map_nodes_position();
+            nodes.updatePositions(current_floor, x, y, l);
 
         }
 
@@ -129,13 +124,7 @@ public class Map extends View {
         canvas.drawBitmap(current_floor_image, null, dst, null);
 
 
-
-        for(MapNode node : nodes.get(current_floor)){
-
-            nodePaint.setColor(node.getColor());
-            canvas.drawOval(node, nodePaint);
-
-        }
+        nodes.drawNodes(canvas, current_floor);
 
 
     }
@@ -167,8 +156,6 @@ public class Map extends View {
         this.x = x - D_x;
         this.y = y - D_y;
 
-        update_map_nodes_position();
-
     }
 
     private void end_drag() {
@@ -178,38 +165,6 @@ public class Map extends View {
 
     }
 
-
-
-
-
-
-
-
-    private void map_node_touched(int x, int y) {
-
-
-        for(MapNode node : nodes.get(current_floor)){
-
-            if(node.contains(x, y)) {
-
-                node.select();
-
-            }
-
-        }
-
-    }
-
-
-
-    private void update_map_nodes_position() {
-
-        for(MapNode node : nodes.get(current_floor)){
-
-            node.updatePosition(this.x, this.y, this.l);
-
-        }
-    }
 
 
 
@@ -228,11 +183,12 @@ public class Map extends View {
             case MotionEvent.ACTION_DOWN:
 
                 start_drag(x, y);
-                map_node_touched(x, y);
+                nodes.onTouchedMapNode(current_floor, x, y);
                 break;
 
             case MotionEvent.ACTION_MOVE:
                 drag(x, y);
+                nodes.updatePositions(current_floor, this.x, this.y, this.l);
                 break;
 
             case MotionEvent.ACTION_UP:
