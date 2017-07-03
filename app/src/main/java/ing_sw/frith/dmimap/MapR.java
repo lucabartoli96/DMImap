@@ -28,11 +28,6 @@ import static android.content.ContentValues.TAG;
 
 
 
-/**
- * TODO: Gestire le eccezioni!
- */
-
-
 
 
 public final class MapR {
@@ -58,9 +53,22 @@ public final class MapR {
     private static int FLOORS_NUMBER;
 
 
+
+
+
+
     private static void parseError(String error_message, Exception e) {
 
-        Log.d(TAG, "parseError:\n" + error_message +  "\n" + e.toString());
+        if(e != null) {
+
+            Log.d(TAG, "parseError:\n" + error_message +  "\n" + e.toString());
+
+        } else {
+
+            Log.d(TAG, "parseError:\n" + error_message);
+
+        }
+
         System.exit(0);
 
     }
@@ -413,13 +421,12 @@ public final class MapR {
 
         }
 
+
         Log.d(TAG, "getGraph: " + graph.toString());
 
         return new Graph(size , graph);
 
     }
-
-
 
 
 
