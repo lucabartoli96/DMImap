@@ -1,8 +1,7 @@
-package ing_sw.frith.dmimap;
+package ing_sw.frith.dmimap.map;
 
 
 import android.graphics.Color;
-import android.graphics.Paint;
 
 public class MapEdge {
 

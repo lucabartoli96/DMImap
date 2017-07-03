@@ -1,18 +1,22 @@
-package ing_sw.frith.dmimap;
+package ing_sw.frith.dmimap.map;
 
 
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.RectF;
 
+import ing_sw.frith.dmimap.UpdatableMapItem;
 
-public class MapNode extends RectF implements UpdatableMapItem {
+
+public abstract class MapNode extends RectF implements UpdatableMapItem {
 
 
 
     private static final int UNSELECTED_COLOR = Color.BLACK;
     private static final int SELECTED_COLOR   = Color.RED;
 
-    private static final int DEFAULT_D        = 50;
+
 
 
     private String id;
@@ -28,21 +32,24 @@ public class MapNode extends RectF implements UpdatableMapItem {
 
 
 
+    public MapNode(String id, int x, int y, int d) {
 
-
-    public MapNode(String id, int x, int y) {
-
-        super(x, y, x + DEFAULT_D, y + DEFAULT_D);
+        super(x, y, x + d, y + d);
 
         this.id = id;
         this.x = x;
         this.y = y;
-        this.d = DEFAULT_D;
+        this.d = d;
         this.color = UNSELECTED_COLOR;
         this.selected = false;
 
     }
 
+
+
+    //abstract methods
+    public abstract void draw(Canvas canvas, Paint nodePaint);
+    public abstract void onClick(OnClickMapNodeHandler handler);
 
 
 

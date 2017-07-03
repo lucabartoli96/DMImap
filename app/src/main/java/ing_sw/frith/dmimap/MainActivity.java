@@ -7,10 +7,7 @@ import android.util.Log;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Scanner;
-
+import ing_sw.frith.dmimap.map.Map;
 import static android.content.ContentValues.TAG;
 
 
@@ -28,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         //UI components
         private TextView pos, des;
         private RelativeLayout map_window;
-        private Map      map;
+        private Map map;
 
 
 
@@ -43,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             res = getResources();
 
 
-            String description = MapR.readDescriptor(res);
+            String description = MapR.readDescriptor(this);
             MapR.createParser(description);
 
 

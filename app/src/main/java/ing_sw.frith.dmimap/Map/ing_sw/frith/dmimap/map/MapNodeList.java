@@ -1,4 +1,4 @@
-package ing_sw.frith.dmimap;
+package ing_sw.frith.dmimap.map;
 
 
 import android.graphics.Canvas;
@@ -17,6 +17,8 @@ public class MapNodeList {
     private ArrayList<ArrayList<MapNode>> list;
     private Paint nodePaint;
 
+    private OnClickMapNodeHandler handler;
+
 
 
 
@@ -28,6 +30,10 @@ public class MapNodeList {
     }
 
 
+    public void setOnClickMapNodeHandler(OnClickMapNodeHandler handler) {
+
+        this.handler = handler;
+    }
 
 
 
@@ -37,7 +43,7 @@ public class MapNodeList {
         for(MapNode node : list.get(current_floor)){
 
             nodePaint.setColor(node.getColor());
-            canvas.drawOval(node, nodePaint);
+            node.draw(canvas, nodePaint);
 
         }
 
@@ -46,9 +52,9 @@ public class MapNodeList {
 
 
 
-    public void onTouchedMapNode(int current_floor, int x, int y) {
+    public void clickedMapNode(int current_floor, int x, int y) {
 
-        MapNode clicked;
+        MapNode clicked = null;
 
         for(MapNode node : list.get(current_floor)){
 
@@ -60,7 +66,11 @@ public class MapNodeList {
 
         }
 
-        
+
+        if(clicked != null)
+
+            clicked.onClick(handler);
+
 
     }
 
@@ -78,6 +88,7 @@ public class MapNodeList {
         }
 
     }
+
 
 
 }

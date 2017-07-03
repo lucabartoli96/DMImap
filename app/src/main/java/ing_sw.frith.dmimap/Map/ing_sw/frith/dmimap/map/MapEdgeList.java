@@ -1,4 +1,4 @@
-package ing_sw.frith.dmimap;
+package ing_sw.frith.dmimap.map;
 
 
 import android.graphics.Canvas;

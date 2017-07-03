@@ -1,4 +1,4 @@
-package ing_sw.frith.dmimap;
+package ing_sw.frith.dmimap.map;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -6,13 +6,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-
-
+import static android.content.ContentValues.TAG;
 
 
 public class Map extends View {
@@ -96,6 +96,9 @@ public class Map extends View {
         this.nodes = nodes;
 
 
+        nodes.setOnClickMapNodeHandler(new Handler());
+
+
         //variable for edges
         this.edges = edges;
 
@@ -123,9 +126,8 @@ public class Map extends View {
         canvas.drawBitmap(current_floor_image, null, dst, null);
 
 
-        nodes.drawNodes(canvas, current_floor);
         edges.drawEdges(canvas, current_floor);
-
+        nodes.drawNodes(canvas, current_floor);
 
     }
 
@@ -183,7 +185,7 @@ public class Map extends View {
             case MotionEvent.ACTION_DOWN:
 
                 start_drag(x, y);
-                nodes.onTouchedMapNode(current_floor, x, y);
+                nodes.clickedMapNode(current_floor, x, y);
                 break;
 
             case MotionEvent.ACTION_MOVE:
@@ -201,6 +203,43 @@ public class Map extends View {
         invalidate();
 
         return true;
+    }
+
+
+
+    private class Handler implements OnClickMapNodeHandler {
+
+
+
+        public void onClickedNamed() {
+
+        }
+
+
+        public void onClickedStairs(boolean up){
+
+
+            if(up) {
+
+                if(current_floor + 1 < floors.length)
+
+                    current_floor++;
+
+
+            } else {
+
+                if(current_floor >= 1)
+
+                    current_floor--;
+
+            }
+
+            current_floor_image = floors[current_floor];
+            nodes.updatePositions(current_floor, Map.this.x, Map.this.y, Map.this.l);
+
+            Log.d(TAG, "onClickedStairs!");
+
+        }
     }
 
 

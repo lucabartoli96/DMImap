@@ -1,7 +1,10 @@
 package ing_sw.frith.dmimap;
 
 
+import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -12,6 +15,14 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+
+import ing_sw.frith.dmimap.map.CrossMapNode;
+import ing_sw.frith.dmimap.map.MapEdge;
+import ing_sw.frith.dmimap.map.MapEdgeList;
+import ing_sw.frith.dmimap.map.MapNode;
+import ing_sw.frith.dmimap.map.MapNodeList;
+import ing_sw.frith.dmimap.map.NamedMapNode;
+import ing_sw.frith.dmimap.map.StairsMapNode;
 
 import static android.content.ContentValues.TAG;
 
@@ -38,14 +49,18 @@ public final class MapR {
 
 
 
+    private static Context   context;
+    private static Resources res;
 
 
 
 
 
+    public static String readDescriptor(Context context) {
 
-    public static String readDescriptor(Resources res) {
+        MapR.context = context;
 
+        res = context.getResources();
 
         InputStream stream;
         String string = "";
@@ -118,6 +133,19 @@ public final class MapR {
 
 
 
+    private static Bitmap[] getStairsImage() {
+
+        Bitmap[] images = new Bitmap[2];
+
+        int id = res.getIdentifier("up_stairs", "drawable", context.getPackageName());
+        images[0] = BitmapFactory.decodeResource(res, id);
+
+        id =    res.getIdentifier("up_stairs", "drawable", context.getPackageName());
+        images[1] = BitmapFactory.decodeResource(res, id);
+
+
+        return images;
+    }
 
 
 
@@ -130,6 +158,7 @@ public final class MapR {
 
         ArrayList<ArrayList<MapNode>> nodes = new ArrayList<>();
 
+        Bitmap[] stairs = getStairsImage();
 
 
         try{
@@ -161,7 +190,37 @@ public final class MapR {
                     int     x = map_node_json.getInt("x"), y = map_node_json.getInt("y");
 
 
-                    MapNode    map_node      = new MapNode(id, x, y);
+                    int type = map_node_json.getInt("type");
+
+                    MapNode    map_node;
+
+                    switch(type) {
+
+                        case 0:
+
+                            map_node = new CrossMapNode(id, x, y);
+
+                            break;
+
+                        case 1:
+
+                            map_node = new NamedMapNode(id, x, y);
+                            break;
+
+                        case 2:
+
+                            type = map_node_json.getInt("up");
+                            map_node = new StairsMapNode(id, x, y, stairs[type]);
+                            break;
+
+                        default:
+
+                            Log.d(TAG, "getNodes: PROBLEMS WITH NODE TYPE!");
+                            map_node = null;
+                            break;
+
+                    }
+
 
                     array.add(map_node);
                     hash.put(id, m);
