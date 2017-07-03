@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
         Resources res;
 
 
+        Graph graph;
+
         //UI components
         private TextView pos, des;
         private RelativeLayout map_window;
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
             initUIObjects();
 
+            initGraph();
+
             initMap();
 
 
@@ -70,6 +74,12 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        public void initGraph() {
+
+            graph = MapR.getGraph();
+
+        }
+
 
 
 
@@ -77,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
         private void initMap() {
 
-            map = new Map(this, MapR.getFloorsNumber(), MapR.getNodes());
+            map = new Map(this, MapR.getFloorsNumber(), MapR.getNodes(), MapR.getEdges());
             map_window.addView(map);
 
             Log.d(TAG, "initMap!");

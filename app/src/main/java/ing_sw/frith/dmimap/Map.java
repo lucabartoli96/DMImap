@@ -43,17 +43,12 @@ public class Map extends View {
     //variables for nodes
     private MapNodeList nodes;
 
+    //variable for edges
+    private MapEdgeList edges;
 
 
 
-
-
-
-
-
-
-
-    public Map(Context context, int floorsNumber, MapNodeList nodes) {
+    public Map(Context context, int floorsNumber, MapNodeList nodes, MapEdgeList edges) {
 
         super(context);
 
@@ -100,6 +95,10 @@ public class Map extends View {
         //variables for nodes
         this.nodes = nodes;
 
+
+        //variable for edges
+        this.edges = edges;
+
     }
 
 
@@ -125,6 +124,7 @@ public class Map extends View {
 
 
         nodes.drawNodes(canvas, current_floor);
+        edges.drawEdges(canvas, current_floor);
 
 
     }

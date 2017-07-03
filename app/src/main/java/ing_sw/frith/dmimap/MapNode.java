@@ -19,11 +19,14 @@ public class MapNode extends RectF implements UpdatableMapItem {
 
     private final int x;
     private final int y;
+    //decidere se mettere anche d come percentuale
     private int d;
 
 
     private int color;
     private boolean selected;
+
+
 
 
 
@@ -39,6 +42,8 @@ public class MapNode extends RectF implements UpdatableMapItem {
         this.selected = false;
 
     }
+
+
 
 
 
@@ -59,6 +64,15 @@ public class MapNode extends RectF implements UpdatableMapItem {
 
 
 
+    //Some getters
+
+    public String getId() {
+
+        return id;
+
+    }
+
+
 
     public int getColor() {
 
@@ -67,6 +81,18 @@ public class MapNode extends RectF implements UpdatableMapItem {
     }
 
 
+
+    public boolean isSelected() {
+
+        return selected;
+
+    }
+
+
+
+
+
+    //Toggle functions for color and state
 
 
 
@@ -94,6 +120,8 @@ public class MapNode extends RectF implements UpdatableMapItem {
             color    = UNSELECTED_COLOR;
         }
     }
+
+
 
 
 

@@ -48,16 +48,19 @@ public class MapNodeList {
 
     public void onTouchedMapNode(int current_floor, int x, int y) {
 
+        MapNode clicked;
 
         for(MapNode node : list.get(current_floor)){
 
             if(node.contains(x, y)) {
 
-                node.select();
-
+                clicked = node;
+                break;
             }
 
         }
+
+        
 
     }
 
