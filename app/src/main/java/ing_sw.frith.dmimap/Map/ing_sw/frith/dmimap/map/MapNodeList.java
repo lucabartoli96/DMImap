@@ -22,6 +22,8 @@ public class MapNodeList {
 
 
 
+
+
     public MapNodeList(ArrayList<ArrayList<MapNode>> list) {
 
         this.list = list;
@@ -30,10 +32,17 @@ public class MapNodeList {
     }
 
 
+
+
+
     public void setOnClickMapNodeHandler(OnClickMapNodeHandler handler) {
 
         this.handler = handler;
     }
+
+
+
+
 
 
 
@@ -48,6 +57,9 @@ public class MapNodeList {
         }
 
     }
+
+
+
 
 
 
@@ -79,6 +91,8 @@ public class MapNodeList {
 
 
 
+
+
     public void updatePositions(int current_floor, int x, int y, int l) {
 
         for(MapNode node : list.get(current_floor)){
@@ -88,6 +102,8 @@ public class MapNodeList {
         }
 
     }
+
+
 
 
 

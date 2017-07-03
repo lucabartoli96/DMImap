@@ -40,17 +40,10 @@ public class MainActivity extends AppCompatActivity {
             res = getResources();
 
 
-            String description = MapR.readDescriptor(this);
-            MapR.createParser(description);
-
-
+            initMapResources();
             initUIObjects();
-
             initGraph();
-
             initMap();
-
-
 
         }
 
@@ -59,7 +52,18 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        private void initUIObjects() {
+    private void initMapResources() {
+
+        String description = MapR.readDescriptor(this);
+        MapR.createParser(description);
+    }
+
+
+
+
+
+
+    private void initUIObjects() {
 
             pos        = (TextView)       findViewById(R.id.pos);
             des        = (TextView)       findViewById(R.id.des);
@@ -67,29 +71,32 @@ public class MainActivity extends AppCompatActivity {
 
             Log.d(TAG, "initUIObjects!");
 
-        }
-
-
-
-        public void initGraph() {
-
-            graph = MapR.getGraph();
-
-        }
+    }
 
 
 
 
 
 
-        private void initMap() {
+    public void initGraph() {
 
-            map = new Map(this, MapR.getFloorsNumber(), MapR.getNodes(), MapR.getEdges());
-            map_window.addView(map);
+        graph = MapR.getGraph();
 
-            Log.d(TAG, "initMap!");
+    }
 
-        }
+
+
+
+
+
+    private void initMap() {
+
+        map = new Map(this, MapR.getFloorsNumber(), MapR.getFloorsImages(), MapR.getNodes(), MapR.getEdges());
+        map_window.addView(map);
+
+        Log.d(TAG, "initMap!");
+
+    }
 
 
 

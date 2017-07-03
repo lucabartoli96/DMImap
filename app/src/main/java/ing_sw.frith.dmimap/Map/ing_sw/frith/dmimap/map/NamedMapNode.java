@@ -10,11 +10,18 @@ public class NamedMapNode extends MapNode {
     private static final int DEFAULT_D        = 50;
 
 
+
+
+
+
     public NamedMapNode(String id, int x, int y) {
 
         super(id, x, y, DEFAULT_D);
 
     }
+
+
+
 
 
     @Override
@@ -23,6 +30,10 @@ public class NamedMapNode extends MapNode {
         canvas.drawOval(this, nodePaint);
 
     }
+
+
+
+
 
     @Override
     public void onClick(OnClickMapNodeHandler handler) {

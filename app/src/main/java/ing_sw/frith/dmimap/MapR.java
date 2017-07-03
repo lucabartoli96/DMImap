@@ -50,7 +50,23 @@ public final class MapR {
 
 
     private static Context   context;
+    private static String  package_name;
     private static Resources res;
+
+
+
+    private static int FLOORS_NUMBER;
+
+
+    private static void parseError(String error_message, Exception e) {
+
+        Log.d(TAG, "parseError:\n" + error_message +  "\n" + e.toString());
+        System.exit(0);
+
+    }
+
+
+
 
 
 
@@ -58,9 +74,9 @@ public final class MapR {
 
     public static String readDescriptor(Context context) {
 
-        MapR.context = context;
-
-        res = context.getResources();
+        MapR.context      = context;
+        MapR.package_name = context.getPackageName();
+        MapR.res          = context.getResources();
 
         InputStream stream;
         String string = "";
@@ -72,8 +88,8 @@ public final class MapR {
 
         }catch(IOException e) {
 
-            Log.d(TAG, "onCreate: Error while opening map_description.json\n" + e.toString());
-            System.exit(0);
+            parseError("Error while opening map_description.json\n", e);
+
         }
 
         Log.d(TAG, "createParser: MapR created!");
@@ -81,6 +97,8 @@ public final class MapR {
         return string;
 
     }
+
+
 
 
 
@@ -100,13 +118,16 @@ public final class MapR {
 
         }catch(JSONException e) {
 
-            Log.d(TAG, "MapR: Impossible to create JSON parser!\n" + e.toString());
+            parseError("MapR: Impossible to create JSON parser!\n", e);
 
         }
 
         Log.d(TAG, "MapR: json object created.");
 
     }
+
+
+
 
 
 
@@ -123,28 +144,60 @@ public final class MapR {
 
         }catch(JSONException e) {
 
-            Log.d(TAG, "MapR: Can't find floors_number!\n" + e.toString());
+            parseError("Can't find floors_number!\n", e);
         }
 
+
         Log.d(TAG, "getFloorsNumber: " + retval);
+
+        FLOORS_NUMBER = retval;
 
         return retval;
     }
 
 
 
-    private static Bitmap[] getStairsImage() {
+
+
+
+
+    private static Bitmap[] getStairsImages() {
 
         Bitmap[] images = new Bitmap[2];
 
-        int id = res.getIdentifier("up_stairs", "drawable", context.getPackageName());
+        int id;
+
+
+        id = res.getIdentifier("up_stairs", "drawable", package_name);
         images[0] = BitmapFactory.decodeResource(res, id);
 
-        id =    res.getIdentifier("up_stairs", "drawable", context.getPackageName());
+        id =    res.getIdentifier("down_stairs", "drawable", package_name);
         images[1] = BitmapFactory.decodeResource(res, id);
 
 
         return images;
+    }
+
+
+
+
+
+
+
+    public static Bitmap[] getFloorsImages() {
+
+
+        Bitmap[] floors = new Bitmap[FLOORS_NUMBER];
+
+        for(int i = 0; i < FLOORS_NUMBER; i++) {
+
+            int id = res.getIdentifier("floor_" + i, "drawable", package_name);
+            floors[i] = BitmapFactory.decodeResource(res, id);
+
+        }
+
+        return floors;
+
     }
 
 
@@ -158,7 +211,7 @@ public final class MapR {
 
         ArrayList<ArrayList<MapNode>> nodes = new ArrayList<>();
 
-        Bitmap[] stairs = getStairsImage();
+        Bitmap[] stairs = getStairsImages();
 
 
         try{
@@ -194,6 +247,9 @@ public final class MapR {
 
                     MapNode    map_node;
 
+                    int image_index;
+                    boolean up;
+
                     switch(type) {
 
                         case 0:
@@ -209,8 +265,9 @@ public final class MapR {
 
                         case 2:
 
-                            type = map_node_json.getInt("up");
-                            map_node = new StairsMapNode(id, x, y, stairs[type]);
+                            up = map_node_json.getBoolean("up");
+                            image_index = up ? 0 : 1;
+                            map_node = new StairsMapNode(id, x, y, up, stairs[image_index]);
                             break;
 
                         default:
@@ -236,7 +293,7 @@ public final class MapR {
 
         } catch (JSONException e) {
 
-            Log.d(TAG, "getNodes: Nodes array not written in correct way|\n" + e.toString());
+            parseError("Nodes array not written in correct way|\n", e);
 
         }
 
@@ -297,7 +354,7 @@ public final class MapR {
 
         } catch (JSONException e) {
 
-            Log.d(TAG, "getNodes: Edges array not written in correct way|\n" + e.toString());
+            parseError("Edges array not written in correct way|\n", e);
 
         }
 
@@ -352,7 +409,7 @@ public final class MapR {
 
         } catch (JSONException e) {
 
-            Log.d(TAG, "getNodes: Graph not written in correct way|\n" + e.toString());
+            parseError("Graph not written in correct way|\n", e);
 
         }
 

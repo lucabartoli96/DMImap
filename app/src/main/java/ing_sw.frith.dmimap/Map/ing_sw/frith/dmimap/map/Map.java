@@ -48,7 +48,7 @@ public class Map extends View {
 
 
 
-    public Map(Context context, int floorsNumber, MapNodeList nodes, MapEdgeList edges) {
+    public Map(Context context, int floorsNumber, Bitmap[] floors, MapNodeList nodes, MapEdgeList edges) {
 
         super(context);
 
@@ -65,16 +65,7 @@ public class Map extends View {
 
         //initialize floors array
         FLOORS_NUMBER = floorsNumber;
-        floors = new Bitmap[FLOORS_NUMBER];
-
-        for(int i = 0; i < FLOORS_NUMBER; i++) {
-
-            String fname = "floor_" + i;
-            int id = res.getIdentifier(fname, "drawable", package_name);
-            floors[i] = BitmapFactory.decodeResource(res, id);
-
-        }
-
+        this.floors   = floors;
         current_floor = 0;
 
         current_floor_image = floors[current_floor];
@@ -94,8 +85,6 @@ public class Map extends View {
 
         //variables for nodes
         this.nodes = nodes;
-
-
         nodes.setOnClickMapNodeHandler(new Handler());
 
 
@@ -120,6 +109,8 @@ public class Map extends View {
             nodes.updatePositions(current_floor, x, y, l);
 
         }
+
+        Log.d(TAG, "onDraw: current_floor :" + current_floor);
 
 
         dst.set(x, y, x + l, y + l);
@@ -207,7 +198,13 @@ public class Map extends View {
 
 
 
+
+
+
+
     private class Handler implements OnClickMapNodeHandler {
+
+
 
 
 
@@ -216,15 +213,18 @@ public class Map extends View {
         }
 
 
+
+
+
         public void onClickedStairs(boolean up){
 
 
             if(up) {
 
-                if(current_floor + 1 < floors.length)
+                if(current_floor + 1 < floors.length) {
 
                     current_floor++;
-
+                }
 
             } else {
 
@@ -237,10 +237,12 @@ public class Map extends View {
             current_floor_image = floors[current_floor];
             nodes.updatePositions(current_floor, Map.this.x, Map.this.y, Map.this.l);
 
-            Log.d(TAG, "onClickedStairs!");
-
         }
     }
+
+
+
+
 
 
 }

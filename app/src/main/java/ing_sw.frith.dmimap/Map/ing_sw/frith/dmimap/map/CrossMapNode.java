@@ -7,7 +7,13 @@ import android.graphics.Paint;
 public class CrossMapNode extends MapNode {
 
 
+
+
+
+
     private static final int DEFAULT_D  = 10;
+
+
 
 
     public CrossMapNode(String id, int x, int y) {
@@ -16,6 +22,9 @@ public class CrossMapNode extends MapNode {
 
     }
 
+
+
+
     @Override
     public void draw(Canvas canvas, Paint nodePaint) {
 
@@ -23,8 +32,16 @@ public class CrossMapNode extends MapNode {
 
     }
 
+
+
+
+
     @Override
     public void onClick(OnClickMapNodeHandler handler) {
 
     }
+
+
+
+
 }
