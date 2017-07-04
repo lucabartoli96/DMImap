@@ -65,6 +65,11 @@ public class Map extends View {
 
         //initialize floors array
         FLOORS_NUMBER = floorsNumber;
+
+
+
+
+
         this.floors   = floors;
         current_floor = 0;
 

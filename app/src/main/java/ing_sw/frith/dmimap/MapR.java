@@ -10,18 +10,24 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONStringer;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import ing_sw.frith.dmimap.map.ClassRoomNodeName;
 import ing_sw.frith.dmimap.map.CrossMapNode;
 import ing_sw.frith.dmimap.map.MapEdge;
 import ing_sw.frith.dmimap.map.MapEdgeList;
 import ing_sw.frith.dmimap.map.MapNode;
 import ing_sw.frith.dmimap.map.MapNodeList;
+import ing_sw.frith.dmimap.map.MapNodeName;
 import ing_sw.frith.dmimap.map.NamedMapNode;
+import ing_sw.frith.dmimap.map.OfficeNodeName;
 import ing_sw.frith.dmimap.map.StairsMapNode;
 
 import static android.content.ContentValues.TAG;
@@ -40,7 +46,10 @@ public final class MapR {
 
 
     private static ArrayList<MapNode> nodes_array;
-    private static HashMap<String, Integer> nodes_hash;
+    
+    
+    
+    private static HashMap<MapNodeName, Integer> named_nodes_hash;
 
     private static HashMap<String, Integer> edges_hash;
 
@@ -183,6 +192,7 @@ public final class MapR {
         id = res.getIdentifier("up_stairs", "drawable", package_name);
         images[0] = BitmapFactory.decodeResource(res, id);
 
+
         id =    res.getIdentifier("down_stairs", "drawable", package_name);
         images[1] = BitmapFactory.decodeResource(res, id);
 
@@ -213,6 +223,40 @@ public final class MapR {
     }
 
 
+    private static MapNodeName getName(JSONObject name_json) throws JSONException {
+
+
+        MapNodeName name;
+
+        if(name_json.has("office")) {
+
+
+            JSONArray owners_json = name_json.getJSONArray("office");
+            ArrayList<String> owners = new ArrayList<>();
+
+            for(int i = 0; i < owners_json.length(); i++) {
+
+                owners.add(owners_json.getString(i));
+
+            }
+
+            name = new OfficeNodeName(owners);
+
+
+        } else {
+
+            String classroom = name_json.getString("classroom");
+
+            name = new ClassRoomNodeName(classroom);
+
+        }
+
+
+        return name;
+
+    }
+
+
 
 
 
@@ -232,9 +276,9 @@ public final class MapR {
             JSONArray nodes_json = json.getJSONArray("nodes");
 
             nodes_array = new ArrayList<>();
-            nodes_hash = new HashMap<>();
+            named_nodes_hash = new HashMap<>();
 
-            int m = 0;
+            int id = 0;
 
 
             for(int i = 0; i < nodes_json.length(); i++) {
@@ -251,52 +295,39 @@ public final class MapR {
                     JSONObject map_node_json = floor_json.getJSONObject(j);
 
 
-                    String id = map_node_json.getString("id");
                     int     x = map_node_json.getInt("x"), y = map_node_json.getInt("y");
 
 
-                    int type = map_node_json.getInt("type");
-
                     MapNode    map_node;
 
-                    int image_index;
-                    boolean up;
+                    if(map_node_json.has("name")) {
 
-                    switch(type) {
 
-                        case 0:
+                        JSONObject name_json = map_node_json.getJSONObject("name");
 
-                            map_node = new CrossMapNode(id, x, y);
+                        MapNodeName name = getName(name_json);
 
-                            break;
+                        map_node = new NamedMapNode(id, x, y, name);
 
-                        case 1:
+                        named_nodes_hash.put(name , id);
 
-                            map_node = new NamedMapNode(id, x, y);
-                            break;
 
-                        case 2:
+                    } else if(map_node_json.has("stairs")) {
 
-                            up = map_node_json.getBoolean("up");
-                            image_index = up ? 0 : 1;
-                            map_node = new StairsMapNode(id, x, y, up, stairs[image_index]);
-                            break;
+                        boolean up = map_node_json.getBoolean("stairs");
+                        map_node = new StairsMapNode(id, x, y, up, stairs[up ? 0 : 1]);
 
-                        default:
+                    } else {
 
-                            Log.d(TAG, "getNodes: PROBLEMS WITH NODE TYPE!");
-                            map_node = null;
-                            break;
+                        map_node = new CrossMapNode(id, x, y);
 
                     }
 
 
                     nodes_array.add(map_node);
-                    nodes_hash.put(id, m);
-
 
                     floor.add(map_node);
-                    m++;
+                    id++;
 
                 }
 
@@ -483,27 +514,6 @@ public final class MapR {
     }
 
 
-
-
-
-
-    public static int convert(String id) {
-
-        return nodes_hash.get(id);
-
-    }
-
-
-
-
-
-
-
-    public static String convert(int i) {
-
-        return nodes_array.get(i).getId();
-
-    }
 
 
 }

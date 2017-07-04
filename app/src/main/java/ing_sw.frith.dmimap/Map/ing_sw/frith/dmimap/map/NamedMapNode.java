@@ -9,15 +9,16 @@ public class NamedMapNode extends MapNode {
 
     private static final int DEFAULT_D        = 50;
 
+    private MapNodeName name;
 
 
 
 
-
-    public NamedMapNode(String id, int x, int y) {
+    public NamedMapNode(int id, int x, int y, MapNodeName name) {
 
         super(id, x, y, DEFAULT_D);
 
+        this.name = name;
     }
 
 

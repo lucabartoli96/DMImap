@@ -7,54 +7,45 @@
   [
     [
       {
-        "type": 1,
-        "id": "Nodo0",
-        "x":    10,
-        "y":    10
+
+        "name":{
+
+          "office": [
+            "Capobianco"
+          ]
+        },
+        "x":    50,
+        "y":    40
       },
       {
-        "type": 2,
-        "id": "Nodo1",
+
+        "name":{
+
+          "classroom": "Verde"
+
+        },
         "x":    50,
-        "y":    50,
-        "up":   true
+        "y":    40
       }
     ],
     [
       {
-        "type": 0,
-        "id": "Nodo2",
+        "stair": true,
         "x":    20,
         "y":    20
       },
       {
-        "type": 2,
-        "id": "Nodo3",
         "x":    60,
         "y":    30,
-        "up":   false
       }
     ]
   ],
-
   "edges":
   [
-    [
-      [0, 1]
-    ],
-
-    [
-      [2, 3]
-    ]
   ],
 
   "graph":
   [
-    [1],
-    [0],
-    [3],
-    [2]
-
   ]
 
 }

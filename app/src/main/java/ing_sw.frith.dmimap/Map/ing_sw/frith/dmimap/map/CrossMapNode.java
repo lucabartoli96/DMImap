@@ -16,7 +16,7 @@ public class CrossMapNode extends MapNode {
 
 
 
-    public CrossMapNode(String id, int x, int y) {
+    public CrossMapNode(int id, int x, int y) {
 
         super(id, x, y, DEFAULT_D);
 

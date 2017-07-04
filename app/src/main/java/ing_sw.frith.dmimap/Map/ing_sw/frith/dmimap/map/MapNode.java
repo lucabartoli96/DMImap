@@ -19,7 +19,7 @@ public abstract class MapNode extends RectF implements UpdatableMapItem {
 
 
 
-    private String id;
+    private int id;
 
     private final int x;
     private final int y;
@@ -32,7 +32,7 @@ public abstract class MapNode extends RectF implements UpdatableMapItem {
 
 
 
-    public MapNode(String id, int x, int y, int d) {
+    public MapNode(int id, int x, int y, int d) {
 
         super(x, y, x + d, y + d);
 
@@ -73,7 +73,7 @@ public abstract class MapNode extends RectF implements UpdatableMapItem {
 
     //Some getters
 
-    public String getId() {
+    public int getId() {
 
         return id;
 
