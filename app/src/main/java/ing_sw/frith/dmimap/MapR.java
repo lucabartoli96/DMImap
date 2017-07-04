@@ -39,8 +39,10 @@ public final class MapR {
 
 
 
-    private static ArrayList<MapNode> array;
-    private static HashMap<String, Integer> hash;
+    private static ArrayList<MapNode> nodes_array;
+    private static HashMap<String, Integer> nodes_hash;
+
+    private static HashMap<String, Integer> edges_hash;
 
 
 
@@ -85,6 +87,8 @@ public final class MapR {
         MapR.context      = context;
         MapR.package_name = context.getPackageName();
         MapR.res          = context.getResources();
+
+
 
         InputStream stream;
         String string = "";
@@ -227,8 +231,8 @@ public final class MapR {
 
             JSONArray nodes_json = json.getJSONArray("nodes");
 
-            array = new ArrayList<>();
-            hash  = new HashMap<>();
+            nodes_array = new ArrayList<>();
+            nodes_hash = new HashMap<>();
 
             int m = 0;
 
@@ -287,8 +291,8 @@ public final class MapR {
                     }
 
 
-                    array.add(map_node);
-                    hash.put(id, m);
+                    nodes_array.add(map_node);
+                    nodes_hash.put(id, m);
 
 
                     floor.add(map_node);
@@ -301,7 +305,7 @@ public final class MapR {
 
         } catch (JSONException e) {
 
-            parseError("Nodes array not written in correct way|\n", e);
+            parseError("Nodes nodes_array not written in correct way|\n", e);
 
         }
 
@@ -315,6 +319,28 @@ public final class MapR {
 
 
 
+    private static int compute_distance(MapNode node_1, MapNode node_2) {
+
+
+        int x_1 = node_1.getX();
+        int y_1 = node_1.getY();
+        int x_2 = node_2.getX();
+        int y_2 = node_2.getY();
+
+        int X = x_1 - x_2, Y = y_1 - y_2;
+
+        X *= X;
+        Y *= Y;
+
+        return (int) Math.sqrt(X + Y);
+
+
+    }
+
+
+
+
+
 
 
 
@@ -323,10 +349,17 @@ public final class MapR {
 
         ArrayList<ArrayList<MapEdge>> edges = new ArrayList<>();
 
+        edges_hash = new HashMap<>();
+
         try{
 
 
             JSONArray edges_json = json.getJSONArray("edges");
+
+            int[]     index   = new int[2];
+            MapNode[] node    = new MapNode[2];
+            String[]  couple  = new String[2];
+
 
 
             for(int i = 0; i < edges_json.length(); i++) {
@@ -340,17 +373,39 @@ public final class MapR {
                 for(int j = 0; j < floor_json.length(); j++){
 
 
-                    JSONObject map_edge_json = floor_json.getJSONObject(j);
+                    JSONArray map_edge_json = floor_json.getJSONArray(j);
 
 
-                    int index_1 = map_edge_json.getInt("node_1");
-                    int index_2 = map_edge_json.getInt("node_2");
 
-                    MapNode node_1 = array.get(index_1);
-                    MapNode node_2 = array.get(index_2);
+                    index[0] = map_edge_json.getInt(0);
+                    index[1] = map_edge_json.getInt(1);
+
+                    node[0] = nodes_array.get(index[0]);
+                    node[1] = nodes_array.get(index[1]);
+
+                    couple[0] = index[0] + "-" + index[1];
+                    couple[1] = index[1] + "-" + index[0];
+
+                    int weight;
 
 
-                    MapEdge  map_edge      = new MapEdge(node_1, node_2);
+                    if(map_edge_json.length() == 3)  {
+
+
+                        weight = map_edge_json.getInt(2);
+
+                    } else {
+
+                        weight = compute_distance(node[0], node[1]);
+
+                    }
+
+                    edges_hash.put(couple[0], weight);
+                    edges_hash.put(couple[1], weight);
+
+
+
+                    MapEdge  map_edge = new MapEdge(node[0], node[1]);
 
 
                     floor.add(map_edge);
@@ -362,7 +417,7 @@ public final class MapR {
 
         } catch (JSONException e) {
 
-            parseError("Edges array not written in correct way|\n", e);
+            parseError("Edges nodes_array not written in correct way|\n", e);
 
         }
 
@@ -399,10 +454,9 @@ public final class MapR {
 
                 for(int j = 0; j < list_json.length(); j++) {
 
-                    JSONObject vertex_json = list_json.getJSONObject(j);
 
-                    int v = vertex_json.getInt("v");
-                    int w = vertex_json.getInt("w");
+                    int v = list_json.getInt(j);
+                    int w = edges_hash.get(i + "-" + v);
 
                     Vertex vertex = new Vertex(v, w);
 
@@ -435,7 +489,7 @@ public final class MapR {
 
     public static int convert(String id) {
 
-        return hash.get(id);
+        return nodes_hash.get(id);
 
     }
 
@@ -447,7 +501,7 @@ public final class MapR {
 
     public static String convert(int i) {
 
-        return array.get(i).getId();
+        return nodes_array.get(i).getId();
 
     }
 

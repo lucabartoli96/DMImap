@@ -97,6 +97,19 @@ public abstract class MapNode extends RectF implements UpdatableMapItem {
 
 
 
+    public int getX() {
+
+        return x;
+
+    }
+
+
+
+    public int getY() {
+
+        return y;
+
+    }
 
 
     //Toggle functions for color and state

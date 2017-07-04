@@ -42,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
             initMapResources();
             initUIObjects();
-            initGraph();
             initMap();
+            initGraph();
 
         }
 

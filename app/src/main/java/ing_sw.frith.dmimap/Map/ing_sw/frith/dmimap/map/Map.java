@@ -110,8 +110,6 @@ public class Map extends View {
 
         }
 
-        Log.d(TAG, "onDraw: current_floor :" + current_floor);
-
 
         dst.set(x, y, x + l, y + l);
         canvas.drawBitmap(current_floor_image, null, dst, null);
@@ -142,7 +140,19 @@ public class Map extends View {
         this.D_x = x - this.x;
         this.D_y = y - this.y;
 
+
+        //da rimuovere
+        int percent_x, percent_y;
+
+        percent_x = (100 * D_x) / this.l;
+        percent_y = (100 * D_y) / this.l;
+
+
+        Log.d(TAG, "start_drag: \nx:" + percent_x + "\ny: " + percent_y);
+        /////
     }
+
+
 
     private void drag(int x, int y) {
 
@@ -150,6 +160,8 @@ public class Map extends View {
         this.y = y - D_y;
 
     }
+
+
 
     private void end_drag() {
 
