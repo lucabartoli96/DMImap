@@ -12,6 +12,7 @@ public class OfficeNodeName extends MapNodeName {
 
     public OfficeNodeName(ArrayList<String> owners) {
 
+        super();
         this.owners = owners;
 
     }
@@ -23,10 +24,4 @@ public class OfficeNodeName extends MapNodeName {
 
     }
 
-    @Override
-    public int hashCode() {
-
-        return owners.hashCode();
-
-    }
 }

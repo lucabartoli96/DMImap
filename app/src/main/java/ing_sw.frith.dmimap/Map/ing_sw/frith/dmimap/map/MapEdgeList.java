@@ -19,6 +19,8 @@ public class MapEdgeList {
 
 
 
+
+
     public MapEdgeList(ArrayList<ArrayList<MapEdge>> list) {
 
         this.list = list;
@@ -29,16 +31,25 @@ public class MapEdgeList {
 
 
 
+
+
     public void drawEdges(Canvas canvas, int current_floor) {
 
 
         for(MapEdge edge : list.get(current_floor)){
 
-            edgePaint.setColor(edge.getColor());
-            canvas.drawLine(edge.startX(), edge.startY(), edge.stopX(), edge.stopY(), edgePaint);
+
+            if(edge.isVisible()) {
+
+                edgePaint.setColor(edge.getColor());
+                canvas.drawLine(edge.startX(), edge.startY(), edge.stopX(), edge.stopY(), edgePaint);
+
+            }
 
         }
 
     }
+
+
 
 }

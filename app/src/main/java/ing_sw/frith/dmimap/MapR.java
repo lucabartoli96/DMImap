@@ -28,6 +28,7 @@ import ing_sw.frith.dmimap.map.MapNodeList;
 import ing_sw.frith.dmimap.map.MapNodeName;
 import ing_sw.frith.dmimap.map.NamedMapNode;
 import ing_sw.frith.dmimap.map.OfficeNodeName;
+import ing_sw.frith.dmimap.map.OtherNodeName;
 import ing_sw.frith.dmimap.map.StairsMapNode;
 
 import static android.content.ContentValues.TAG;
@@ -51,8 +52,6 @@ public final class MapR {
     
     private static HashMap<MapNodeName, Integer> named_nodes_hash;
 
-    private static HashMap<String, Integer> edges_hash;
-
 
 
     private static Context   context;
@@ -62,8 +61,11 @@ public final class MapR {
 
 
     private static int FLOORS_NUMBER;
+    private static int NODE_NUMBER;
 
 
+
+    private static ArrayList<ArrayList<Vertex>> graph;
 
 
 
@@ -182,6 +184,10 @@ public final class MapR {
 
 
 
+
+
+
+
     private static Bitmap[] getStairsImages() {
 
         Bitmap[] images = new Bitmap[2];
@@ -223,6 +229,11 @@ public final class MapR {
     }
 
 
+
+
+
+
+
     private static MapNodeName getName(JSONObject name_json) throws JSONException {
 
 
@@ -243,12 +254,17 @@ public final class MapR {
             name = new OfficeNodeName(owners);
 
 
-        } else {
+        } else if(name_json.has("classroom")) {
 
             String classroom = name_json.getString("classroom");
 
             name = new ClassRoomNodeName(classroom);
 
+        } else {
+
+            String other = name_json.getString("other");
+
+            name = new OtherNodeName(other);
         }
 
 
@@ -334,6 +350,8 @@ public final class MapR {
                 nodes.add(floor);
             }
 
+            NODE_NUMBER = id;
+
         } catch (JSONException e) {
 
             parseError("Nodes nodes_array not written in correct way|\n", e);
@@ -346,6 +364,10 @@ public final class MapR {
         return new MapNodeList(nodes);
 
     }
+
+
+
+
 
 
 
@@ -380,7 +402,16 @@ public final class MapR {
 
         ArrayList<ArrayList<MapEdge>> edges = new ArrayList<>();
 
-        edges_hash = new HashMap<>();
+
+        graph = new ArrayList<>();
+
+        for(int i = 0; i < NODE_NUMBER; i++) {
+
+            graph.add(new ArrayList<Vertex>());
+
+        }
+
+
 
         try{
 
@@ -389,8 +420,7 @@ public final class MapR {
 
             int[]     index   = new int[2];
             MapNode[] node    = new MapNode[2];
-            String[]  couple  = new String[2];
-
+            Vertex[]  vertex  = new Vertex[2];
 
 
             for(int i = 0; i < edges_json.length(); i++) {
@@ -414,29 +444,33 @@ public final class MapR {
                     node[0] = nodes_array.get(index[0]);
                     node[1] = nodes_array.get(index[1]);
 
-                    couple[0] = index[0] + "-" + index[1];
-                    couple[1] = index[1] + "-" + index[0];
 
                     int weight;
+                    boolean visible;
 
 
                     if(map_edge_json.length() == 3)  {
 
 
                         weight = map_edge_json.getInt(2);
+                        visible = false;
 
                     } else {
 
                         weight = compute_distance(node[0], node[1]);
+                        visible = true;
 
                     }
 
-                    edges_hash.put(couple[0], weight);
-                    edges_hash.put(couple[1], weight);
+                    vertex[0] = new Vertex(index[0], weight);
+                    vertex[1] = new Vertex(index[1], weight);
 
 
+                    graph.get(index[0]).add(vertex[1]);
+                    graph.get(index[1]).add(vertex[0]);
 
-                    MapEdge  map_edge = new MapEdge(node[0], node[1]);
+
+                    MapEdge  map_edge = new MapEdge(node[0], node[1], visible);
 
 
                     floor.add(map_edge);
@@ -470,46 +504,9 @@ public final class MapR {
 
     public static Graph getGraph() {
 
-        ArrayList<ArrayList<Vertex>> graph = null;
-        int size = 0;
-
-        try{
-
-            JSONArray graph_json = json.getJSONArray("graph");
-            graph = new ArrayList<>();
-
-            for(int i= 0; i < graph_json.length(); i++) {
-
-                JSONArray list_json = graph_json.getJSONArray(i);
-                ArrayList<Vertex> list = new ArrayList<>();
-
-                for(int j = 0; j < list_json.length(); j++) {
-
-
-                    int v = list_json.getInt(j);
-                    int w = edges_hash.get(i + "-" + v);
-
-                    Vertex vertex = new Vertex(v, w);
-
-                    list.add(vertex);
-                }
-
-                graph.add(list);
-            }
-
-
-            size = graph.size();
-
-        } catch (JSONException e) {
-
-            parseError("Graph not written in correct way|\n", e);
-
-        }
-
-
         Log.d(TAG, "getGraph: " + graph.toString());
 
-        return new Graph(size , graph);
+        return new Graph(graph.size() , graph);
 
     }
 

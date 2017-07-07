@@ -5,15 +5,21 @@ import android.graphics.Color;
 
 public class MapEdge {
 
+
+
     private MapNode node_1;
     private MapNode node_2;
 
+    private final boolean visible;
 
-    public MapEdge(MapNode node_1, MapNode node_2) {
+
+
+    public MapEdge(MapNode node_1, MapNode node_2, boolean visible) {
 
         this.node_1 = node_1;
         this.node_2 = node_2;
 
+        this.visible = visible;
     }
 
 
@@ -69,6 +75,12 @@ public class MapEdge {
 
     }
 
+
+    public boolean isVisible() {
+
+        return visible;
+
+    }
 
     @Override
     public String toString() {

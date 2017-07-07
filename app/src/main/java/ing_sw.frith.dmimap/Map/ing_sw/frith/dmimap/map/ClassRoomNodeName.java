@@ -11,6 +11,7 @@ public class ClassRoomNodeName extends MapNodeName {
 
     public ClassRoomNodeName(String name) {
 
+        super();
         this.name = name;
 
     }
@@ -22,15 +23,6 @@ public class ClassRoomNodeName extends MapNodeName {
 
         return TYPE;
 
-    }
-
-
-
-
-    @Override
-    public int hashCode() {
-
-        return name.hashCode();
     }
 
 }
