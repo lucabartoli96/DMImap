@@ -47,11 +47,9 @@ public final class MapR {
 
 
     private static ArrayList<MapNode> nodes_array;
-    
-    
-    
-    private static HashMap<MapNodeName, Integer> named_nodes_hash;
 
+
+    private static NameList  name_list;
 
 
     private static Context   context;
@@ -234,6 +232,8 @@ public final class MapR {
 
 
 
+
+
     private static MapNodeName getName(JSONObject name_json) throws JSONException {
 
 
@@ -278,6 +278,8 @@ public final class MapR {
 
 
 
+
+
     public static MapNodeList getNodes() {
 
 
@@ -292,7 +294,8 @@ public final class MapR {
             JSONArray nodes_json = json.getJSONArray("nodes");
 
             nodes_array = new ArrayList<>();
-            named_nodes_hash = new HashMap<>();
+            name_list = new NameList();
+
 
             int id = 0;
 
@@ -323,9 +326,9 @@ public final class MapR {
 
                         MapNodeName name = getName(name_json);
 
-                        map_node = new NamedMapNode(id, x, y, name);
+                        name_list.add(name, id);
 
-                        named_nodes_hash.put(name , id);
+                        map_node = new NamedMapNode(id, x, y, name);
 
 
                     } else if(map_node_json.has("stairs")) {
@@ -364,6 +367,8 @@ public final class MapR {
         return new MapNodeList(nodes);
 
     }
+
+
 
 
 
@@ -507,6 +512,16 @@ public final class MapR {
         Log.d(TAG, "getGraph: " + graph.toString());
 
         return new Graph(graph.size() , graph);
+
+    }
+
+
+
+
+
+    public static NameList getNameList() {
+
+        return name_list;
 
     }
 

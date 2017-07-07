@@ -151,7 +151,7 @@ public abstract class MapNode extends RectF implements UpdatableMapItem {
     @Override
     public String toString() {
 
-        return  "id = " + id + "\n" +
+        return  "node_id = " + id + "\n" +
                 "x  = " + x  + "\n" +
                 "y  = " + y  + "\n";
 
