@@ -2,6 +2,7 @@ package ing_sw.frith.dmimap;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.inputmethodservice.InputMethodService;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         private RadioGroup type;
         private Button scan, start;
         private Map map;
+        private InputMethodManager imm;
 
 
         NameList name_list;
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         private Position position;
         private Destination destination;
+        private StartNavigation startNavigation;
 
 
 
@@ -55,11 +58,11 @@ public class MainActivity extends AppCompatActivity {
             res = getResources();
 
 
-            initUIObjects();
             initMapResources();
             initMap();
             initNameList();
             initGraph();
+            initUIObjects();
 
         }
 
@@ -82,201 +85,27 @@ public class MainActivity extends AppCompatActivity {
     private void initUIObjects() {
 
 
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
         pos        = (TextView)       findViewById(R.id.pos);
         scan       = (Button)         findViewById(R.id.scan);
 
 
-        position    = new Position(pos, scan);
+        position    = new Position(pos, scan, name_list);
 
         des        = (TextView)       findViewById(R.id.des);
         type       = (RadioGroup)     findViewById(R.id.type);
 
-        destination = new Destination(des, type);
+        destination = new Destination(des, type, imm, name_list);
 
 
-
-        map_window = (RelativeLayout) findViewById(R.id.map_window);
         start      = (Button)         findViewById(R.id.start);
 
 
+        StartNavigation startNavigation = new StartNavigation(start, position, destination, graph, map);
+
+
         Log.d(TAG, "initUIObjects!");
-
-    }
-
-
-
-
-
-    private class Position implements View.OnClickListener {
-
-
-        private TextView pos;
-        private Button scan;
-
-
-
-        public Position(TextView pos, Button scan) {
-
-            this.pos = pos;
-            this.scan = scan;
-
-            scan.setOnClickListener(this);
-
-        }
-
-
-        @Override
-        public void onClick(View view) {
-
-            //QRCodeScanning
-            //FindName
-            //FindNodeId
-            //Filllabelpos
-
-        }
-
-    }
-
-
-
-
-
-
-
-
-    private class Destination implements RadioGroup.OnCheckedChangeListener, TextView.OnEditorActionListener, View.OnClickListener {
-
-
-        private TextView des;
-        private RadioGroup type;
-        private InputMethodManager imm;
-
-
-        private String des_string;
-        private int type_id;
-
-        private boolean focus = false;
-
-        public Destination(TextView des, RadioGroup type) {
-
-            this.des = des;
-            this.type = type;
-
-            imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-
-            desFocus(focus);
-
-            des.setOnEditorActionListener(this);
-            des.setOnClickListener(this);
-            type.setOnCheckedChangeListener(this);
-
-        }
-
-
-
-
-
-        private void update() {
-
-
-            Log.d(TAG, "update:\n" + "destination: " + des_string + "\ntype: "  + type_id);
-
-        }
-
-
-
-
-        @Override
-        public boolean onEditorAction(TextView textView, int key, KeyEvent keyEvent) {
-
-
-            if(key == EditorInfo.IME_ACTION_DONE) {
-
-                des_string = des.getText().toString();
-                desFocus(false);
-                update();
-
-
-                return true;
-            }
-
-
-            return false;
-
-
-        }
-
-
-
-
-
-
-        @Override
-        public void onCheckedChanged(RadioGroup radioGroup, int i) {
-
-
-            switch (i) {
-
-                case R.id.office:
-
-                    type_id = 0;
-                    break;
-
-                case R.id.classroom:
-
-                    type_id = 1;
-                    break;
-
-                case R.id.other:
-
-                    type_id = 2;
-                    break;
-
-            }
-
-            update();
-
-        }
-
-
-        @Override
-        public void onClick(View view) {
-
-            if(imm.isActive()) {
-
-                des_string = des.getText().toString();
-                update();
-
-            }
-
-            focus =  !focus;
-            desFocus(focus);
-
-        }
-
-
-
-        private void desFocus(boolean b) {
-
-
-            if(b) {
-
-                des.setFocusableInTouchMode(true);
-                des.requestFocus();
-                focus = true;
-
-            } else {
-
-                des.clearFocus();
-                des.setFocusable(false);
-                focus = false;
-
-            }
-
-            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-
-
-        }
 
     }
 
@@ -299,9 +128,8 @@ public class MainActivity extends AppCompatActivity {
     private void initMap() {
 
         map = new Map(this, MapR.getFloorsNumber(), MapR.getFloorsImages(), MapR.getNodes(), MapR.getEdges());
+        map_window = (RelativeLayout) findViewById(R.id.map_window);
         map_window.addView(map);
-
-        //// TODO: SISTEMARE AGGIUNTA DELLA VIEW
 
         
         Log.d(TAG, "initMap!");
@@ -316,6 +144,26 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+/*
+
+    @Override
+    protected void onPause() {
+
+        super.onPause();
+
+        Log.d(TAG, "onDestroy: 1");
+
+        if(imm.isActive()) {
+
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+            Log.d(TAG, "onDestroy: 2");
+        }
+
+
+    }
+
+*/
 
 }
 

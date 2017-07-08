@@ -20,6 +20,7 @@ public abstract class MapNodeName {
 
 
     public abstract int getType();
+    public abstract boolean matches(String input);
 
 
     public int getId() {

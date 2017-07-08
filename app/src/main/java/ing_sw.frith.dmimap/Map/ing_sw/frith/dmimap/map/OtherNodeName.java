@@ -17,6 +17,16 @@ public class OtherNodeName extends MapNodeName {
 
     }
 
+
+    @Override
+    public boolean matches(String input) {
+
+        return name.equalsIgnoreCase(input);
+
+    }
+
+
+
     @Override
     public int getType() {
 

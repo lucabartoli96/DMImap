@@ -7,18 +7,32 @@
   [
     [
       {
+        "name": {
+
+          "classroom": "verde"
+
+        },
         "x": 90,
         "y": 90
       },
 
       {
+        "name": {
+
+          "office": ["Marcugini", "Milani"]
+
+        },
         "x": 80,
-        "y": 80,
-        "stairs": true
+        "y": 80
       }
     ],
     [
       {
+        "name": {
+
+          "other": "portineria"
+
+        },
         "x": 90,
         "y": 90
       },

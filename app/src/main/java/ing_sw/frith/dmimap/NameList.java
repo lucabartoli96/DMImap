@@ -2,7 +2,6 @@ package ing_sw.frith.dmimap;
 
 
 import java.util.ArrayList;
-
 import ing_sw.frith.dmimap.map.MapNodeName;
 
 
@@ -10,6 +9,17 @@ import ing_sw.frith.dmimap.map.MapNodeName;
 
 public class NameList {
 
+
+    private static String[] REGEXP;
+
+    {
+        REGEXP = new String[3];
+
+        REGEXP[0] = "[a-zA-Z]{2,20}";
+        REGEXP[1] = "[a-zA-Z]{2,20}";
+        REGEXP[2] = "[a-zA-Z]{2,20}";
+
+    }
 
     private ArrayList<ArrayList<CoupleNameNodeID>> list;
 
@@ -41,12 +51,31 @@ public class NameList {
 
 
 
+    public boolean matches(int type, String input) {
+
+        return input.trim().matches(REGEXP[type]);
+
+    }
+
 
 
 
     public int getNodeID(int type, String input) {
 
-        return 0;
+        input = input.trim();
+
+        for (CoupleNameNodeID couple :list.get(type)) {
+
+
+            if(couple.getName().matches(input)) {
+
+                return couple.getNode_id();
+
+            }
+
+        }
+
+        return -1;
 
     }
 
@@ -55,8 +84,8 @@ public class NameList {
 
     private class CoupleNameNodeID {
 
-        public final MapNodeName name;
-        public final int node_id;
+        private final MapNodeName name;
+        private final int node_id;
 
         public CoupleNameNodeID(MapNodeName name, int node_id) {
 
@@ -64,6 +93,21 @@ public class NameList {
             this.node_id = node_id;
 
         }
+
+
+        public MapNodeName getName() {
+
+            return name;
+
+        }
+
+
+        public int getNode_id() {
+
+            return node_id;
+
+        }
+
     }
 
 }

@@ -10,12 +10,33 @@ public class OfficeNodeName extends MapNodeName {
 
     private ArrayList<String> owners;
 
+
+
     public OfficeNodeName(ArrayList<String> owners) {
 
         super();
         this.owners = owners;
 
     }
+
+
+
+
+    public boolean matches(String input) {
+
+        for (String owner : owners) {
+
+            if(owner.equalsIgnoreCase(input))
+
+                return true;
+
+        }
+
+        return false;
+
+    }
+
+
 
     @Override
     public int getType() {

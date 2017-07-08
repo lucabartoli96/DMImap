@@ -25,4 +25,11 @@ public class ClassRoomNodeName extends MapNodeName {
 
     }
 
+    @Override
+    public boolean matches(String input) {
+
+        return name.equalsIgnoreCase(input);
+
+    }
+
 }
