@@ -89,4 +89,14 @@ public class Position implements View.OnClickListener {
 
     }
 
+
+
+    public int getNode() {
+
+        return position;
+
+    }
+
+
+
 }

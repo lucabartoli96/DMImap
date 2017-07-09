@@ -1,8 +1,10 @@
 package ing_sw.frith.dmimap;
 
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.RadioGroup;
@@ -14,18 +16,28 @@ import static android.content.ContentValues.TAG;
 
 
 
-public  class Destination implements RadioGroup.OnCheckedChangeListener, TextView.OnEditorActionListener/*, View.OnClickListener*/{
+public  class Destination implements RadioGroup.OnCheckedChangeListener{
 
 
     private static String[] HINTS;
+    private static String[] ERR_MSG;
+    private static int      DEFAULT_HINT_COLOR;
 
 
     {
         HINTS = new String[4];
-        HINTS[0] = "\"cognome\"";
-        HINTS[1] = "\"nome aula\"";
-        HINTS[2] = "\"nome luogo\"";
+        HINTS[0] = "cognome: \"Rossi\"";
+        HINTS[1] = "nome aula: \"A0\"";
+        HINTS[2] = "nome luogo: \"portineria\"";
         HINTS[3] = "imposta tipo ->";
+
+        ERR_MSG = new String[4];
+
+        ERR_MSG[0] = "Non trovato";
+        ERR_MSG[1] = "Stringa non permessa";
+        ERR_MSG[2] = "Tipo non impostato";
+        ERR_MSG[3] = "Stringa vuota";
+
 
     }
 
@@ -42,8 +54,7 @@ public  class Destination implements RadioGroup.OnCheckedChangeListener, TextVie
 
     private int destination;
 
-    //private boolean focus = false;
-
+    private int err_code;
 
 
 
@@ -58,12 +69,11 @@ public  class Destination implements RadioGroup.OnCheckedChangeListener, TextVie
         this.des_string = null;
         this.destination = -1;
 
-        //desFocus(focus);
+
+        DEFAULT_HINT_COLOR = des.getHintTextColors().getDefaultColor();
 
         des.setHint(HINTS[3]);
 
-        des.setOnEditorActionListener(this);
-        //des.setOnClickListener(this);
         type.setOnCheckedChangeListener(this);
 
     }
@@ -73,11 +83,69 @@ public  class Destination implements RadioGroup.OnCheckedChangeListener, TextVie
 
 
 
+    public int getNode() {
+
+        getFields();
+        update();
+
+        if(destination == -1)
+
+            error();
+
+        return destination;
+
+    }
+
+
+
+    private void getFields() {
+
+
+
+        int i = type.getCheckedRadioButtonId();
+
+        switch (i) {
+
+            case R.id.office:
+
+                type_id = 0;
+                break;
+
+            case R.id.classroom:
+
+                type_id = 1;
+                break;
+
+            case R.id.other:
+
+                type_id = 2;
+                break;
+
+        }
+
+
+
+        des_string = des.getText().toString();
+
+
+    }
+
+
+
 
     private void update() {
 
 
-        if(des_string != null && type_id != -1 && name_list.matches(type_id, des_string)) {
+        boolean matches = true;
+
+        if(des_string != null && type_id != -1) {
+
+            matches = name_list.matches(type_id, des_string);
+
+        }
+
+
+        if(des_string != null && type_id != -1 && matches) {
 
             int node_id = name_list.getNodeID(type_id, des_string);
 
@@ -87,14 +155,26 @@ public  class Destination implements RadioGroup.OnCheckedChangeListener, TextVie
 
             } else {
 
-                //TODO: Display error message
+                err_code = 0;
                 destination = -1;
             }
 
 
         } else {
 
-            //TODO: Display error message
+            if(!matches) {
+
+                err_code = 1;
+
+            } else if(type_id == -1) {
+
+                err_code =  2;
+
+            } else {
+
+                err_code = 3;
+            }
+
             destination = -1;
 
         }
@@ -106,37 +186,24 @@ public  class Destination implements RadioGroup.OnCheckedChangeListener, TextVie
 
 
 
-    public int getNode() {
-
-        return destination;
-
-    }
 
 
 
 
+    private void error() {
 
-    @Override
-    public boolean onEditorAction(TextView textView, int key, KeyEvent keyEvent) {
-
-
-        if(key == EditorInfo.IME_ACTION_DONE) {
-
-            des_string = des.getText().toString();
-            //desFocus(false);
-            update();
-
-
-            return true;
-        }
-
-
-        return false;
-
+        des.setText("");
+        des.setHintTextColor(Color.RED);
+        des.setHint(ERR_MSG[err_code]);
 
     }
 
 
+
+    private void un_error() {
+
+        des.setHintTextColor(DEFAULT_HINT_COLOR);
+    }
 
 
 
@@ -166,63 +233,15 @@ public  class Destination implements RadioGroup.OnCheckedChangeListener, TextVie
 
         }
 
+
+
         des.setText("");
+        un_error();
         des.setHint(HINTS[type_id]);
 
-        update();
-
     }
 
 
-
-
-/*
-
-    @Override
-    public void onClick(View view) {
-
-        if(imm.isActive()) {
-
-            des_string = des.getText().toString();
-            update();
-
-        }
-
-        focus =  !focus;
-        desFocus(focus);
-
-    }
-
-
-
-
-
-
-
-
-    private void desFocus(boolean b) {
-
-
-        if(b) {
-
-            des.setFocusableInTouchMode(true);
-            des.requestFocus();
-            focus = true;
-
-        } else {
-
-            des.clearFocus();
-            des.setFocusable(false);
-            focus = false;
-
-        }
-
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-
-
-    }
-
-*/
 
 }
 

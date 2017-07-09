@@ -47,6 +47,9 @@ public class Map extends View {
     private MapEdgeList edges;
 
 
+    private MapNode[] path;
+
+
 
     public Map(Context context, int floorsNumber, Bitmap[] floors, MapNodeList nodes, MapEdgeList edges) {
 
@@ -122,6 +125,29 @@ public class Map extends View {
 
         edges.drawEdges(canvas, current_floor);
         nodes.drawNodes(canvas, current_floor);
+
+    }
+
+
+
+
+    public void setPath(MapNode[] path) {
+
+        for(MapNode node : this.path) {
+
+            node.unselect();
+
+        }
+
+
+        this.path = path;
+
+
+        for(MapNode node : this.path) {
+
+            node.select();
+
+        }
 
     }
 

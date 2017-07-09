@@ -527,5 +527,11 @@ public final class MapR {
 
 
 
+    public static MapNode iToMapNode(int index) {
+
+        return nodes_array.get(index);
+
+    }
+
 
 }

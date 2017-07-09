@@ -16,8 +16,8 @@ public class NameList {
         REGEXP = new String[3];
 
         REGEXP[0] = "[a-zA-Z]{2,20}";
-        REGEXP[1] = "[a-zA-Z]{2,20}";
-        REGEXP[2] = "[a-zA-Z]{2,20}";
+        REGEXP[1] = "[A-Z][0-9]";
+        REGEXP[2] = "[a-zA-Z\\s]{2,20}";
 
     }
 
