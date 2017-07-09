@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.google.zxing.Result;
 
+import ing_sw.frith.dmimap.map.MapNode;
+import ing_sw.frith.dmimap.map.MapNodeName;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 import static android.content.ContentValues.TAG;
@@ -23,7 +25,7 @@ public class Position implements View.OnClickListener, ZXingScannerView.ResultHa
 
 
 
-    private static String QRCODE_REGEXP = "^[0-2]:[a-zA-Z]{2,20}$";
+    private static String QRCODE_REGEXP = "^[0-2]:[a-zA-Z0-9]{2,20}$";
     private static String[] ERR_MSG;
     private static int DFLT_TEXT_COLOR = Color.BLACK;
     private static int ERR_TEXT_COLOR  = Color.RED;
@@ -142,7 +144,7 @@ public class Position implements View.OnClickListener, ZXingScannerView.ResultHa
 
             if(name_list.matches(type, input)) {
 
-                int node_id = name_list.getNodeID(type, input);
+                int node_id      = name_list.getNodeID(type, input);
 
                 if(node_id != -1) {
 
