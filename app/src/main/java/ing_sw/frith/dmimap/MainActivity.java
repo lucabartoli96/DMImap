@@ -9,20 +9,27 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.zxing.Result;
 
 import ing_sw.frith.dmimap.map.Map;
+import me.dm7.barcodescanner.zxing.ZXingScannerView;
+
 import static android.content.ContentValues.TAG;
 
 
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
+
 
 
         //useful references
@@ -32,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
         Graph graph;
 
         //UI components
+        private ZXingScannerView scannerView;
+        private boolean stopped;
+        private View screen;
         private TextView pos, des;
         private RelativeLayout map_window;
         private RadioGroup type;
@@ -83,11 +93,18 @@ public class MainActivity extends AppCompatActivity {
     private void initUIObjects() {
 
 
-        pos        = (TextView)       findViewById(R.id.pos);
-        scan       = (Button)         findViewById(R.id.scan);
+        scannerView =new ZXingScannerView(this);
+        scannerView.setVisibility(View.INVISIBLE);
+        addContentView(scannerView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
 
-        position    = new Position(pos, scan, name_list);
+        screen      =                  findViewById(R.id.screen);
+        pos         = (TextView)       findViewById(R.id.pos);
+        scan        = (Button)         findViewById(R.id.scan);
+
+
+
+        position    = new Position(scannerView, screen, pos, scan, name_list);
 
         des        = (TextView)       findViewById(R.id.des);
         type       = (RadioGroup)     findViewById(R.id.type);
@@ -98,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         start      = (Button)         findViewById(R.id.start);
 
 
-        StartNavigation startNavigation = new StartNavigation(start, position, destination, graph, map);
+        startNavigation = new StartNavigation(start, position, destination, graph, map);
 
 
         Log.d(TAG, "initUIObjects!");
@@ -140,26 +157,31 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
 
-/*
+        if(stopped)
+
+            scannerView.startCamera();
+
+    }
+
+
 
     @Override
     protected void onPause() {
-
         super.onPause();
 
-        Log.d(TAG, "onDestroy: 1");
+        if(scannerView.getVisibility() == View.VISIBLE) {
 
-        if(imm.isActive()) {
+            scannerView.stopCamera();
+            stopped = true;
 
-            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-            Log.d(TAG, "onDestroy: 2");
         }
 
 
     }
-
-*/
 
 }
 

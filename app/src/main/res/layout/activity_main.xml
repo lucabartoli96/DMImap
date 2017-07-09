@@ -8,20 +8,33 @@
 
 
     <LinearLayout
-        android:layout_width="368dp"
-        android:layout_height="495dp"
+        android:id="@+id/screen"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:fillViewport="true"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp"
-        android:weightSum="1">
+        android:weightSum="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:layout_weight="0.51"
             android:orientation="horizontal"
-            android:weightSum="1"
-            android:layout_weight="0.51">
+            android:weightSum="1">
 
             <TextView
                 android:id="@+id/pos"
@@ -48,18 +61,18 @@
             android:id="@+id/map_window"
             android:layout_width="match_parent"
             android:layout_height="348dp"
+            android:layout_weight="0.35"
             android:background="@android:color/background_dark"
-            android:visibility="visible"
-            android:layout_weight="0.35">
+            android:visibility="visible">
 
         </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="0.16"
             android:orientation="horizontal"
-            android:weightSum="1"
-            android:layout_weight="0.16">
+            android:weightSum="1">
 
             <EditText
                 android:id="@+id/des"
