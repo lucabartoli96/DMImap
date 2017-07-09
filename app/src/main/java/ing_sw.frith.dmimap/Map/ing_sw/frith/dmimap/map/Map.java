@@ -133,11 +133,14 @@ public class Map extends View {
 
     public void setPath(MapNode[] path) {
 
-        for(MapNode node : this.path) {
 
-            node.unselect();
+        if(this.path != null)
 
-        }
+            for(MapNode node : this.path) {
+
+                node.unselect();
+
+            }
 
 
         this.path = path;
@@ -148,6 +151,8 @@ public class Map extends View {
             node.select();
 
         }
+
+        invalidate();
 
     }
 

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class MapEdgeList {
 
 
-    private static final int DEFAULT_LINE_WIDTH = 15;
+    private static final int DEFAULT_LINE_WIDTH = 5;
 
     private ArrayList<ArrayList<MapEdge>> list;
     private Paint edgePaint;

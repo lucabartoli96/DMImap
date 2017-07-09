@@ -161,9 +161,14 @@ public class MainActivity extends AppCompatActivity{
     public void onResume() {
         super.onResume();
 
-        if(stopped)
+        if(stopped) {
 
             scannerView.startCamera();
+            stopped = false;
+
+        }
+
+
 
     }
 

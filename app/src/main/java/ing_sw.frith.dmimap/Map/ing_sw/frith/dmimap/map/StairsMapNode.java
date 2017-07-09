@@ -12,7 +12,7 @@ import android.graphics.Paint;
 
 public class StairsMapNode extends MapNode {
 
-    private static final int DEFAULT_D        = 80;
+    private static final int DEFAULT_D        = 40;
 
 
 

@@ -1,6 +1,10 @@
 package ing_sw.frith.dmimap;
 
+import android.util.Log;
+
 import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
 
 
 public class Graph {
@@ -55,6 +59,8 @@ public class Graph {
 
             u = Q.extract_min();
 
+            Log.d(TAG, "pairShortestPath: min: " + u + "d[u]: " + d[u]);
+
             if(u == des) {
 
                 flag = true;
@@ -68,12 +74,16 @@ public class Graph {
 
                 }
 
+                Log.d(TAG, "pairShortestPath: " + print(d));
+
             }
 
         }
 
 
         int[] path = new int[c[u] + 1];
+
+
 
         int i = u, j = c[u];
 
@@ -85,12 +95,29 @@ public class Graph {
 
         }
 
+        Log.d(TAG, "pairShortestPath: length: " + path.length + "\npath: " + print(path));
 
         return path;
     }
 
 
 
+
+
+    private String print(int[] d) {
+
+
+        StringBuilder string = new StringBuilder();
+
+        for(int i= 0; i < d.length; i++) {
+
+            string.append(",").append(d[i]);
+
+        }
+
+
+        return string.toString();
+    }
 
 
 
@@ -101,14 +128,48 @@ public class Graph {
 
         int v = vertex.getV(), w = vertex.W();
 
+        String msg = "Relax: " +
 
-        if(d[u] > d[v] + w) {
+                "\n" + "u:" + u +
+                "\n" + "d[u]:" + d[u] +
+                "\n" + "v:" + v +
+                "\n" + "d[v]:" + d[v]+
+                "\n" + "w:" + w +
+                "\n" + "d[u] + w" + (d[u] + w) +
+                "\n" + "cond:" + (d[v] > d[u] + w);
 
-            d[u] = d[v] + w;
-            c[u] = c[v] + 1;
-            p[u] = v;
+
+        Log.d(TAG, "relax: " + msg);
+
+        int sum;
+
+
+        if(d[u] == Integer.MAX_VALUE) {
+
+            sum = d[u];
+
+        } else {
+
+            sum = d[u] + w;
 
         }
+
+
+        if(d[v] > sum) {
+
+            d[v] = sum;
+            c[v] = c[u] + 1;
+            p[v] = u;
+
+        }
+
+
+        msg = "Relax: " +
+
+                "\n" + "v:" + v +
+                "\n" + "d[v]:" + d[v];
+
+        Log.d(TAG, "after-relax: " + msg);
 
 
     }
@@ -137,7 +198,7 @@ public class Graph {
 
             for(int i = 0; i < N; i++) {
 
-                indexes.set(i, i);
+                indexes.add(i);
 
             }
 
@@ -152,21 +213,27 @@ public class Graph {
 
         public int extract_min() {
 
-            int m = -1, min = Integer.MIN_VALUE;
+            int min_v = -1, min_i = -1, min = Integer.MAX_VALUE;
 
-            for(Integer i : indexes) {
+            Log.d(TAG, "extract_min: " + print(d));
 
-                if(d[i] < min) {
+            for(int i = 0; i < indexes.size(); i++ ) {
 
-                    m = i;
-                    min = d[i];
+                int v = indexes.get(i);
+
+                if(d[v] < min) {
+
+                    min_i = i;
+                    min_v = v;
+                    min = d[v];
                 }
 
             }
 
-            indexes.remove(m);
 
-            return m;
+            indexes.remove(min_i);
+
+            return min_v;
 
         }
     }

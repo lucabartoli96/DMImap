@@ -36,7 +36,7 @@ public class Position implements View.OnClickListener, ZXingScannerView.ResultHa
         ERR_MSG[0] = "Non trovato";
         ERR_MSG[1] = "Nome non permesso";
         ERR_MSG[2] = "QRCode non permesso";
-        ERR_MSG[4] = "Non immesso";
+        ERR_MSG[3] = "Non immesso";
     }
 
 

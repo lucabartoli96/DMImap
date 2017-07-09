@@ -100,12 +100,18 @@ public final class MapR {
 
 
         InputStream stream;
-        String string = "";
+        StringBuilder string = new StringBuilder();
 
         try {
 
             stream = res.getAssets().open("map_description.json");
-            string = new Scanner(stream).useDelimiter("\\Z").next();
+            Scanner scanner = new Scanner(stream);
+
+            while(scanner.hasNextLine()) {
+
+                string.append(scanner.nextLine());
+
+            }
 
         }catch(IOException e) {
 
@@ -115,7 +121,7 @@ public final class MapR {
 
         Log.d(TAG, "createParser: MapR created!");
 
-        return string;
+        return string.toString();
 
     }
 

@@ -7,7 +7,7 @@ import android.graphics.Paint;
 public class NamedMapNode extends MapNode {
 
 
-    private static final int DEFAULT_D        = 50;
+    private static final int DEFAULT_D        = 20;
 
     private MapNodeName name;
 

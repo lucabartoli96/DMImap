@@ -57,12 +57,12 @@ public abstract class MapNode extends RectF implements UpdatableMapItem {
     @Override
     public void updatePosition(int mapX, int mapY, int mapD) {
 
-        int next_x, next_y;
 
-        int distance = (x * mapD)/100;
+        int distance_x = (x * mapD)/100;
+        int distance_y = (y * mapD)/100;
 
-        next_x = mapX + distance;
-        next_y = mapY + distance;
+        int next_x = mapX + distance_x;
+        int next_y = mapY + distance_y;
 
         set(next_x,next_y, next_x + d, next_y + d);
 

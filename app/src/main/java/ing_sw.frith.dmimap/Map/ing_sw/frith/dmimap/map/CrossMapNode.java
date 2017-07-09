@@ -11,7 +11,7 @@ public class CrossMapNode extends MapNode {
 
 
 
-    private static final int DEFAULT_D  = 10;
+    private static final int DEFAULT_D  = 5;
 
 
 
