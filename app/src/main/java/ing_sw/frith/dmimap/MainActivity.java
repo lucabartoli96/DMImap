@@ -37,8 +37,6 @@ public class MainActivity extends AppCompatActivity {
         private RadioGroup type;
         private Button scan, start;
         private Map map;
-        private InputMethodManager imm;
-
 
         NameList name_list;
 
@@ -85,8 +83,6 @@ public class MainActivity extends AppCompatActivity {
     private void initUIObjects() {
 
 
-        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-
         pos        = (TextView)       findViewById(R.id.pos);
         scan       = (Button)         findViewById(R.id.scan);
 
@@ -96,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         des        = (TextView)       findViewById(R.id.des);
         type       = (RadioGroup)     findViewById(R.id.type);
 
-        destination = new Destination(des, type, imm, name_list);
+        destination = new Destination(des, type, name_list);
 
 
         start      = (Button)         findViewById(R.id.start);

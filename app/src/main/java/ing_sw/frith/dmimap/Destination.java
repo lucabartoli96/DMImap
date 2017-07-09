@@ -3,10 +3,6 @@ package ing_sw.frith.dmimap;
 
 import android.graphics.Color;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -28,15 +24,15 @@ public  class Destination implements RadioGroup.OnCheckedChangeListener{
         HINTS = new String[4];
         HINTS[0] = "cognome: \"Rossi\"";
         HINTS[1] = "nome aula: \"A0\"";
-        HINTS[2] = "nome luogo: \"portineria\"";
+        HINTS[2] = "luogo: \"portineria\"";
         HINTS[3] = "imposta tipo ->";
 
         ERR_MSG = new String[4];
 
         ERR_MSG[0] = "Non trovato";
-        ERR_MSG[1] = "Stringa non permessa";
+        ERR_MSG[1] = "Non permesso";
         ERR_MSG[2] = "Tipo non impostato";
-        ERR_MSG[3] = "Stringa vuota";
+        ERR_MSG[3] = "Non immesso";
 
 
     }
@@ -44,7 +40,6 @@ public  class Destination implements RadioGroup.OnCheckedChangeListener{
 
     private TextView des;
     private RadioGroup type;
-    private InputMethodManager imm;
 
     private NameList name_list;
 
@@ -58,11 +53,10 @@ public  class Destination implements RadioGroup.OnCheckedChangeListener{
 
 
 
-    public Destination(TextView des, RadioGroup type, InputMethodManager imm, NameList name_list) {
+    public Destination(TextView des, RadioGroup type, NameList name_list) {
 
         this.des  = des;
         this.type = type;
-        this.imm  = imm;
         this.name_list = name_list;
 
         this.type_id = -1;
@@ -136,16 +130,19 @@ public  class Destination implements RadioGroup.OnCheckedChangeListener{
     private void update() {
 
 
-        boolean matches = true;
+        boolean type_setted    = type_id != -1;
+        boolean string_setted  = des_string != null  &&  !des_string.equals("");
+        boolean matches        = true;
 
-        if(des_string != null && type_id != -1) {
+
+        if(string_setted && type_setted) {
 
             matches = name_list.matches(type_id, des_string);
 
         }
 
 
-        if(des_string != null && type_id != -1 && matches) {
+        if(type_setted && string_setted && matches) {
 
             int node_id = name_list.getNodeID(type_id, des_string);
 
@@ -166,7 +163,7 @@ public  class Destination implements RadioGroup.OnCheckedChangeListener{
 
                 err_code = 1;
 
-            } else if(type_id == -1) {
+            } else if(!type_setted) {
 
                 err_code =  2;
 
