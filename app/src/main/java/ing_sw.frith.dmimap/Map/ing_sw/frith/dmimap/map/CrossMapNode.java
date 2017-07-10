@@ -3,6 +3,9 @@ package ing_sw.frith.dmimap.map;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
+
+import static android.content.ContentValues.TAG;
 
 public class CrossMapNode extends MapNode {
 
@@ -11,7 +14,7 @@ public class CrossMapNode extends MapNode {
 
 
 
-    private static final int DEFAULT_D  = 5;
+    private static final int DEFAULT_D  = 1;
 
 
 
@@ -40,7 +43,6 @@ public class CrossMapNode extends MapNode {
     public void onClick(OnClickMapNodeHandler handler) {
 
     }
-
 
 
 

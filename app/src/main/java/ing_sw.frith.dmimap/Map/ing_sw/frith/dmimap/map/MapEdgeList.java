@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class MapEdgeList {
 
 
-    private static final int DEFAULT_LINE_WIDTH = 5;
+    private static final int DEFAULT_LINE_WIDTH = 1;
 
     private ArrayList<ArrayList<MapEdge>> list;
     private Paint edgePaint;
@@ -25,7 +25,6 @@ public class MapEdgeList {
 
         this.list = list;
         edgePaint = new Paint();
-        edgePaint.setStrokeWidth(DEFAULT_LINE_WIDTH);
     }
 
 
@@ -33,8 +32,11 @@ public class MapEdgeList {
 
 
 
-    public void drawEdges(Canvas canvas, int current_floor) {
+    public void drawEdges(Canvas canvas, int current_floor, int mapD) {
 
+
+        int next_stroke_width = (DEFAULT_LINE_WIDTH*mapD)/100;
+        edgePaint.setStrokeWidth(next_stroke_width);
 
         for(MapEdge edge : list.get(current_floor)){
 

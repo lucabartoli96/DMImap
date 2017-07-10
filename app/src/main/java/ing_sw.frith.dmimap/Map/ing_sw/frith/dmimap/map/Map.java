@@ -8,9 +8,11 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import static android.content.ContentValues.TAG;
 
@@ -18,6 +20,10 @@ import static android.content.ContentValues.TAG;
 public class Map extends View {
 
     private final int FLOORS_NUMBER;
+
+
+    private Context context;
+
 
     //floors variables
     private int      current_floor;
@@ -51,9 +57,15 @@ public class Map extends View {
 
 
 
+    ScaleGestureDetector scaleDetector;
+
+
+
     public Map(Context context, int floorsNumber, Bitmap[] floors, MapNodeList nodes, MapEdgeList edges) {
 
         super(context);
+
+        this.context = context;
 
         //resources and package infos
         Resources res = getResources();
@@ -99,6 +111,8 @@ public class Map extends View {
         //variable for edges
         this.edges = edges;
 
+
+        scaleDetector  =new ScaleGestureDetector(context, new ScaleListener());
     }
 
 
@@ -123,7 +137,7 @@ public class Map extends View {
         canvas.drawBitmap(current_floor_image, null, dst, null);
 
 
-        edges.drawEdges(canvas, current_floor);
+        edges.drawEdges(canvas, current_floor, l);
         nodes.drawNodes(canvas, current_floor);
 
     }
@@ -217,7 +231,8 @@ public class Map extends View {
         
         int x = (int) event.getX();
         int y = (int) event.getY();
-        
+
+        scaleDetector.onTouchEvent(event);
         
         switch (event.getAction()) {
 
@@ -247,6 +262,73 @@ public class Map extends View {
 
 
 
+    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+
+
+        private boolean scaling = false;
+        private int initial_x;
+        private int initial_y;
+        private int initial_l;
+
+        @Override
+        public boolean onScaleBegin(ScaleGestureDetector detector) {
+
+            int focus_x = (int) detector.getFocusX();
+            int focus_y = (int) detector.getFocusY();
+
+
+            if(dst.contains(focus_x, focus_y)) {
+
+                scaling = true;
+                initial_l = l;
+                initial_x = x;
+                initial_y = y;
+
+            }
+
+
+            return true;
+        }
+
+
+
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+
+
+            if(scaling) {
+
+
+                int span      = (int) detector.getCurrentSpan();
+                int prev_span = (int) detector.getPreviousSpan();
+
+
+                if(span > prev_span)
+
+                    l = initial_l + span;
+
+                else
+
+                    l = initial_l - span;
+
+            }
+
+            return true;
+        }
+
+
+
+        @Override
+        public void onScaleEnd(ScaleGestureDetector detector) {
+            super.onScaleEnd(detector);
+        }
+
+
+    }
+
+
+
+
 
 
 
@@ -256,7 +338,9 @@ public class Map extends View {
 
 
 
-        public void onClickedNamed() {
+        public void onClickedNamed(MapNodeName name) {
+
+            Toast.makeText(context, name.toString() ,Toast.LENGTH_SHORT).show();
 
         }
 

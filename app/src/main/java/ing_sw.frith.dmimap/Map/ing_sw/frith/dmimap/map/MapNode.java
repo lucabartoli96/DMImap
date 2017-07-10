@@ -23,8 +23,7 @@ public abstract class MapNode extends RectF implements UpdatableMapItem {
 
     private final int x;
     private final int y;
-    //decidere se mettere anche d come percentuale
-    private int d;
+    private final int d;
 
 
     private int color;
@@ -34,7 +33,7 @@ public abstract class MapNode extends RectF implements UpdatableMapItem {
 
     public MapNode(int id, int x, int y, int d) {
 
-        super(x, y, x + d, y + d);
+        super();
 
         this.id = id;
         this.x = x;
@@ -60,13 +59,16 @@ public abstract class MapNode extends RectF implements UpdatableMapItem {
 
         int distance_x = (x * mapD)/100;
         int distance_y = (y * mapD)/100;
+        int next_d = (d * mapD)/100;
 
-        int next_x = mapX + distance_x;
-        int next_y = mapY + distance_y;
+        int next_x = mapX + distance_x - next_d/2;
+        int next_y = mapY + distance_y - next_d/2;
 
-        set(next_x,next_y, next_x + d, next_y + d);
+
+        set(next_x,next_y, next_x + next_d, next_y + next_d);
 
     }
+
 
 
 

@@ -3,11 +3,14 @@ package ing_sw.frith.dmimap.map;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
+
+import static android.content.ContentValues.TAG;
 
 public class NamedMapNode extends MapNode {
 
 
-    private static final int DEFAULT_D        = 20;
+    private static final int DEFAULT_D        = 3;
 
     private MapNodeName name;
 
@@ -44,7 +47,8 @@ public class NamedMapNode extends MapNode {
     @Override
     public void onClick(OnClickMapNodeHandler handler) {
 
-    }
+        handler.onClickedNamed(name);
 
+    }
 
 }
