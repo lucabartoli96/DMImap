@@ -45,4 +45,25 @@ public class OfficeNodeName extends MapNodeName {
 
     }
 
+
+    @Override
+    public String toString() {
+
+        StringBuilder sb = new StringBuilder().append("ufficio: ");
+
+        for(int i = 0; i < owners.size(); i++ ) {
+
+            sb.append(owners.get(i));
+
+            if(i != owners.size() - 1)
+
+                sb.append(',');
+
+
+        }
+
+        return sb.toString();
+
+    }
+
 }

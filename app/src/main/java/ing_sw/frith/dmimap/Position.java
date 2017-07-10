@@ -6,12 +6,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-
 import com.google.zxing.Result;
-
-import ing_sw.frith.dmimap.map.MapNode;
-import ing_sw.frith.dmimap.map.MapNodeName;
+import ing_sw.frith.dmimap.map.NamedMapNode;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 import static android.content.ContentValues.TAG;
@@ -47,10 +43,7 @@ public class Position implements View.OnClickListener, ZXingScannerView.ResultHa
     private View screen;
     private TextView pos;
     private Button scan;
-
     private NameList name_list;
-
-
     private int position;
 
 
@@ -66,15 +59,14 @@ public class Position implements View.OnClickListener, ZXingScannerView.ResultHa
         this.screen      = screen;
         this.pos         = pos;
         this.scan        = scan;
+        this.position    = -1;
+        this.name_list   = name_list;
 
-        this.name_list = name_list;
-
-        scannerView.setResultHandler(this);
 
         pos.setTextColor(DFLT_TEXT_COLOR);
 
-        position = -1;
 
+        scannerView.setResultHandler(this);
         scan.setOnClickListener(this);
 
     }
@@ -86,24 +78,20 @@ public class Position implements View.OnClickListener, ZXingScannerView.ResultHa
 
 
 
+    public int getNode() {
 
-    private void switchView() {
+        if(position == -1)
 
-        if(screen.getVisibility() == View.VISIBLE) {
+            error(3);
 
-            Log.d(TAG, "switchView: screen visible");
-            screen.setVisibility(View.INVISIBLE);
-            scannerView.setVisibility(View.VISIBLE);
-
-        } else {
-
-            Log.d(TAG, "switchView: screen invisible");
-            scannerView.setVisibility(View.INVISIBLE);
-            screen.setVisibility(View.VISIBLE);
-
-        }
+        return position;
 
     }
+
+
+
+
+
 
 
 
@@ -113,7 +101,7 @@ public class Position implements View.OnClickListener, ZXingScannerView.ResultHa
     @Override
     public void onClick(View view) {
 
-        unerror();
+        un_error();
         switchView();
         scannerView.startCamera();
 
@@ -146,9 +134,11 @@ public class Position implements View.OnClickListener, ZXingScannerView.ResultHa
 
                 int node_id      = name_list.getNodeID(type, input);
 
+
                 if(node_id != -1) {
 
                     position = node_id;
+                    setPosText();
 
                 } else {
 
@@ -179,6 +169,44 @@ public class Position implements View.OnClickListener, ZXingScannerView.ResultHa
 
 
 
+
+
+
+
+
+
+
+    private void setPosText() {
+
+
+        String name = ((NamedMapNode) MapR.iToMapNode(position)).getName().toString();
+
+        pos.setText(name);
+
+    }
+
+
+
+
+    private void switchView() {
+
+        if(screen.getVisibility() == View.VISIBLE) {
+
+            screen.setVisibility(View.INVISIBLE);
+            scannerView.setVisibility(View.VISIBLE);
+
+        } else {
+
+            scannerView.setVisibility(View.INVISIBLE);
+            screen.setVisibility(View.VISIBLE);
+
+        }
+
+    }
+
+
+
+
     private void error(int err_code) {
 
         position = -1;
@@ -188,23 +216,15 @@ public class Position implements View.OnClickListener, ZXingScannerView.ResultHa
     }
 
 
-    private void unerror() {
+
+
+
+    private void un_error() {
 
         pos.setTextColor(DFLT_TEXT_COLOR);
         pos.setText("Specifica posizione");
     }
 
-
-
-    public int getNode() {
-
-        if(position == -1)
-
-            error(3);
-
-        return position;
-
-    }
 
 
 

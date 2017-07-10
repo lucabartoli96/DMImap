@@ -62,7 +62,6 @@
             android:layout_width="match_parent"
             android:layout_height="348dp"
             android:layout_weight="0.35"
-            android:background="@android:color/background_dark"
             android:visibility="visible">
 
         </RelativeLayout>
@@ -111,7 +110,7 @@
 
             <Button
                 android:id="@+id/start"
-                android:layout_width="128dp"
+                android:layout_width="106dp"
                 android:layout_height="match_parent"
                 android:text="Start" />
         </LinearLayout>

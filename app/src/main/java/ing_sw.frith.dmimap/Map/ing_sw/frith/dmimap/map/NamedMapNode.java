@@ -22,7 +22,12 @@ public class NamedMapNode extends MapNode {
     }
 
 
+    
+    public MapNodeName getName() {
 
+        return name;
+
+    }
 
 
     @Override

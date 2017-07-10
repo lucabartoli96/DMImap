@@ -32,4 +32,12 @@ public class ClassRoomNodeName extends MapNodeName {
 
     }
 
+
+    @Override
+    public String toString() {
+
+        return "aula: " + name;
+
+    }
+
 }

@@ -40,16 +40,13 @@ public  class Destination implements RadioGroup.OnCheckedChangeListener{
 
     private TextView des;
     private RadioGroup type;
-
     private NameList name_list;
-
     private String des_string;
     private int type_id;
-
-
     private int destination;
-
     private int err_code;
+
+
 
 
 
@@ -58,19 +55,21 @@ public  class Destination implements RadioGroup.OnCheckedChangeListener{
         this.des  = des;
         this.type = type;
         this.name_list = name_list;
-
         this.type_id = -1;
         this.des_string = null;
         this.destination = -1;
 
 
         DEFAULT_HINT_COLOR = des.getHintTextColors().getDefaultColor();
-
         des.setHint(HINTS[3]);
+
 
         type.setOnCheckedChangeListener(this);
 
     }
+
+
+
 
 
 
@@ -89,6 +88,49 @@ public  class Destination implements RadioGroup.OnCheckedChangeListener{
         return destination;
 
     }
+
+
+
+
+
+
+
+    @Override
+    public void onCheckedChanged(RadioGroup radioGroup, int i) {
+
+
+        switch (i) {
+
+            case R.id.office:
+
+                type_id = 0;
+                break;
+
+            case R.id.classroom:
+
+                type_id = 1;
+                break;
+
+            case R.id.other:
+
+                type_id = 2;
+                break;
+
+        }
+
+
+
+        des.setText("");
+        un_error();
+        des.setHint(HINTS[type_id]);
+
+    }
+
+
+
+
+
+
 
 
 
@@ -123,6 +165,10 @@ public  class Destination implements RadioGroup.OnCheckedChangeListener{
 
 
     }
+
+
+
+
 
 
 
@@ -187,6 +233,8 @@ public  class Destination implements RadioGroup.OnCheckedChangeListener{
 
 
 
+
+
     private void error() {
 
         des.setText("");
@@ -197,46 +245,13 @@ public  class Destination implements RadioGroup.OnCheckedChangeListener{
 
 
 
+
+
     private void un_error() {
 
         des.setHintTextColor(DEFAULT_HINT_COLOR);
     }
 
-
-
-
-
-
-    @Override
-    public void onCheckedChanged(RadioGroup radioGroup, int i) {
-
-
-        switch (i) {
-
-            case R.id.office:
-
-                type_id = 0;
-                break;
-
-            case R.id.classroom:
-
-                type_id = 1;
-                break;
-
-            case R.id.other:
-
-                type_id = 2;
-                break;
-
-        }
-
-
-
-        des.setText("");
-        un_error();
-        des.setHint(HINTS[type_id]);
-
-    }
 
 
 

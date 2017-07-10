@@ -34,5 +34,13 @@ public class OtherNodeName extends MapNodeName {
 
     }
 
+
+    @Override
+    public String toString() {
+
+        return "altro: " + name;
+
+    }
+
 }
 
