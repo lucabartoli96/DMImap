@@ -167,13 +167,14 @@ public class Map extends View {
         int floor = position.getFloor();
         setFloor(floor);
 
-        position.makePosition();
 
         for(MapNode node : this.path) {
 
             node.select();
 
         }
+
+        position.makePosition();
 
         invalidate();
 

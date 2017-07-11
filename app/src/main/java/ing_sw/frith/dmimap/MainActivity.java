@@ -15,7 +15,6 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 
 
-
 public class MainActivity extends AppCompatActivity{
 
 
