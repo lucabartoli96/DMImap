@@ -30,65 +30,68 @@
         tools:layout_constraintTop_creator="1">
 
         <LinearLayout
+            android:id="@+id/qr_bar"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_weight="0.51"
+            android:layout_height="20dp"
+            android:layout_weight="0.19"
             android:orientation="horizontal"
             android:weightSum="1">
 
             <TextView
                 android:id="@+id/pos"
-                android:layout_width="149dp"
+                android:layout_width="240dp"
+                android:textSize="20sp"
                 android:layout_height="match_parent"
-                android:text="Specifica posizione" />
+                android:text="Specifica posizione"
+                android:layout_weight="0.61" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+
+            <Button
+                android:id="@+id/scan"
+                android:layout_width="30dp"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/scan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.07"
-                    android:text="SCAN" />
-            </LinearLayout>
+                android:background="@drawable/qr_code"
+                android:layout_weight="0.39" />
 
         </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/map_window"
             android:layout_width="match_parent"
-            android:layout_height="348dp"
-            android:layout_weight="0.35"
-            android:visibility="visible">
+            android:layout_height="250dp"
+            android:visibility="visible"
+            android:orientation="horizontal"
+            android:layout_weight="0.69">
 
-        </RelativeLayout>
+        </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/nav_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.16"
+            android:layout_height="54dp"
             android:orientation="horizontal"
-            android:weightSum="1">
+            android:weightSum="1"
+            android:layout_weight="0.11">
 
             <EditText
                 android:id="@+id/des"
-                android:layout_width="107dp"
+                android:layout_width="96dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1.28"
                 android:elegantTextHeight="false"
                 android:ems="10"
+                android:textSize="20sp"
                 android:hint="Specifica destinazione"
                 android:inputType="text"
-                android:maxLength="30"/>
+                android:maxLength="30"
+                android:layout_weight="0.65" />
 
             <RadioGroup
                 android:id="@+id/type"
-                android:layout_width="106dp"
+                android:layout_width="87dp"
                 android:layout_height="match_parent"
-                android:weightSum="1">
+                android:visibility="visible"
+                android:weightSum="1"
+                android:layout_weight="0.15">
 
                 <RadioButton
                     android:id="@+id/office"
@@ -111,9 +114,11 @@
 
             <Button
                 android:id="@+id/start"
-                android:layout_width="106dp"
+                android:layout_width="67dp"
                 android:layout_height="match_parent"
-                android:text="Start" />
+                android:background="@drawable/navigation"
+                android:visibility="visible"
+                android:layout_weight="0.08" />
         </LinearLayout>
 
     </LinearLayout>

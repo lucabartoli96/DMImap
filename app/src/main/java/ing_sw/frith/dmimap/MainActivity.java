@@ -1,21 +1,17 @@
 package ing_sw.frith.dmimap;
 
 
-import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import ing_sw.frith.dmimap.map.Map;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-
-import static android.content.ContentValues.TAG;
 
 
 
@@ -30,8 +26,6 @@ public class MainActivity extends AppCompatActivity{
         private boolean stopped;
         private Map map;
         private NameList name_list;
-
-
 
 
         @Override
@@ -72,7 +66,7 @@ public class MainActivity extends AppCompatActivity{
     private void initMap() {
 
         map = new Map(this, MapR.getFloorsNumber(), MapR.getFloorsImages(), MapR.getNodes(), MapR.getEdges());
-        RelativeLayout map_window = (RelativeLayout) findViewById(R.id.map_window);
+        LinearLayout map_window      = (LinearLayout)   findViewById(R.id.map_window);
         map_window.addView(map);
 
     }
@@ -114,7 +108,7 @@ public class MainActivity extends AppCompatActivity{
         addContentView(scannerView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
 
-        View     screen      =                  findViewById(R.id.screen);
+        View screen          =                  findViewById(R.id.screen);
         TextView pos         = (TextView)       findViewById(R.id.pos);
         Button   scan        = (Button)         findViewById(R.id.scan);
 
@@ -138,25 +132,6 @@ public class MainActivity extends AppCompatActivity{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Override
     public void onResume() {
         super.onResume();
@@ -171,6 +146,7 @@ public class MainActivity extends AppCompatActivity{
 
 
     }
+
 
 
 
