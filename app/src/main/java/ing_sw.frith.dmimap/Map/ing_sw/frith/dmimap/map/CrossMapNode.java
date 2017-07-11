@@ -19,9 +19,9 @@ public class CrossMapNode extends MapNode {
 
 
 
-    public CrossMapNode(int id, int x, int y) {
+    public CrossMapNode(int id, int x, int y, int floor) {
 
-        super(id, x, y, DEFAULT_D);
+        super(id, x, y, DEFAULT_D, floor);
 
     }
 

@@ -3,9 +3,8 @@ package ing_sw.frith.dmimap.map;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.Log;
 
-import static android.content.ContentValues.TAG;
+
 
 public class NamedMapNode extends MapNode {
 
@@ -14,14 +13,15 @@ public class NamedMapNode extends MapNode {
 
     private MapNodeName name;
 
+    private boolean position;
 
 
+    public NamedMapNode(int id, int x, int y, MapNodeName name, int floor) {
 
-    public NamedMapNode(int id, int x, int y, MapNodeName name) {
-
-        super(id, x, y, DEFAULT_D);
+        super(id, x, y, DEFAULT_D, floor);
 
         this.name = name;
+        position  = false;
     }
 
 
@@ -33,10 +33,38 @@ public class NamedMapNode extends MapNode {
     }
 
 
+    public void makePosition() {
+
+        position = true;
+
+    }
+
+
+
+    @Override
+    public void unselect() {
+        super.unselect();
+
+        position = false;
+
+    }
+
+
+
     @Override
     public void draw(Canvas canvas, Paint nodePaint) {
 
-        canvas.drawOval(this, nodePaint);
+
+        if(position) {
+
+            canvas.drawRect(this, nodePaint);
+
+        } else {
+
+            canvas.drawOval(this, nodePaint);
+
+        }
+
 
     }
 

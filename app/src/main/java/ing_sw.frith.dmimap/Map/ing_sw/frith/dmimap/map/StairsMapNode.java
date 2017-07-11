@@ -25,9 +25,9 @@ public class StairsMapNode extends MapNode {
 
 
 
-    public StairsMapNode(int id, int x, int y, boolean up, Bitmap image) {
+    public StairsMapNode(int id, int x, int y, boolean up, Bitmap image, int floor) {
 
-        super(id, x, y, DEFAULT_D);
+        super(id, x, y, DEFAULT_D, floor);
 
         this.up = up;
         this.image = image;

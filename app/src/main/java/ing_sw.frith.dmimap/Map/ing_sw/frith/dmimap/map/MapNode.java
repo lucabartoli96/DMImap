@@ -24,6 +24,7 @@ public abstract class MapNode extends RectF implements UpdatableMapItem {
     private final int x;
     private final int y;
     private final int d;
+    private final int floor;
 
 
     private int color;
@@ -31,7 +32,7 @@ public abstract class MapNode extends RectF implements UpdatableMapItem {
 
 
 
-    public MapNode(int id, int x, int y, int d) {
+    public MapNode(int id, int x, int y, int d, int floor) {
 
         super();
 
@@ -39,6 +40,7 @@ public abstract class MapNode extends RectF implements UpdatableMapItem {
         this.x = x;
         this.y = y;
         this.d = d;
+        this.floor = floor;
         this.color = UNSELECTED_COLOR;
         this.selected = false;
 
@@ -110,6 +112,12 @@ public abstract class MapNode extends RectF implements UpdatableMapItem {
     public int getY() {
 
         return y;
+
+    }
+
+    public int getFloor() {
+
+        return floor;
 
     }
 

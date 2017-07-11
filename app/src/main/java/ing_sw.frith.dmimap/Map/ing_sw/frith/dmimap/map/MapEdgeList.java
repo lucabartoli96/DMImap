@@ -29,14 +29,17 @@ public class MapEdgeList {
 
 
 
-
-
-
-    public void drawEdges(Canvas canvas, int current_floor, int mapD) {
-
+    public void updateWidth(int mapD) {
 
         int next_stroke_width = (DEFAULT_LINE_WIDTH*mapD)/100;
         edgePaint.setStrokeWidth(next_stroke_width);
+
+    }
+
+
+
+    public void drawEdges(Canvas canvas, int current_floor) {
+
 
         for(MapEdge edge : list.get(current_floor)){
 

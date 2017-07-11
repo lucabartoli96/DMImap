@@ -129,6 +129,7 @@ public class Map extends View {
 
             l = Math.min(canvas.getHeight(), canvas.getWidth());
             nodes.updatePositions(current_floor, x, y, l);
+            edges.updateWidth(l);
 
         }
 
@@ -137,10 +138,12 @@ public class Map extends View {
         canvas.drawBitmap(current_floor_image, null, dst, null);
 
 
-        edges.drawEdges(canvas, current_floor, l);
+        edges.drawEdges(canvas, current_floor);
         nodes.drawNodes(canvas, current_floor);
 
     }
+
+
 
 
 
@@ -159,6 +162,12 @@ public class Map extends View {
 
         this.path = path;
 
+        NamedMapNode position = (NamedMapNode) path[0];
+
+        int floor = position.getFloor();
+        setFloor(floor);
+
+        position.makePosition();
 
         for(MapNode node : this.path) {
 
@@ -171,6 +180,17 @@ public class Map extends View {
     }
 
 
+
+    private void setFloor(int floor) {
+
+        if(floor >= 0 && floor < FLOORS_NUMBER && floor != current_floor) {
+
+            current_floor = floor;
+            current_floor_image = floors[floor];
+
+        }
+
+    }
 
 
 
@@ -228,33 +248,46 @@ public class Map extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        
-        int x = (int) event.getX();
-        int y = (int) event.getY();
 
-        scaleDetector.onTouchEvent(event);
-        
-        switch (event.getAction()) {
 
-            case MotionEvent.ACTION_DOWN:
+        if(event.getPointerCount() == 2) {
 
-                start_drag(x, y);
-                nodes.clickedMapNode(current_floor, x, y);
-                break;
+            Log.d(TAG, "onTouchEvent: zoom");
 
-            case MotionEvent.ACTION_MOVE:
-                drag(x, y);
-                nodes.updatePositions(current_floor, this.x, this.y, this.l);
-                break;
+            scaleDetector.onTouchEvent(event);
 
-            case MotionEvent.ACTION_UP:
+        } else {
 
-                end_drag();
-                break;
+
+            Log.d(TAG, "onTouchEvent: drag");
+
+            int x = (int) event.getX();
+            int y = (int) event.getY();
+
+
+            switch (event.getAction()) {
+
+                case MotionEvent.ACTION_DOWN:
+
+                    start_drag(x, y);
+                    nodes.clickedMapNode(current_floor, x, y);
+                    break;
+
+                case MotionEvent.ACTION_MOVE:
+                    drag(x, y);
+                    nodes.updatePositions(current_floor, this.x, this.y, this.l);
+                    break;
+
+                case MotionEvent.ACTION_UP:
+
+                    end_drag();
+                    break;
+
+            }
+
+            invalidate();
 
         }
-
-        invalidate();
 
         return true;
     }
@@ -266,23 +299,27 @@ public class Map extends View {
 
 
         private boolean scaling = false;
-        private int initial_x;
-        private int initial_y;
-        private int initial_l;
+        private float initial_l;
+        private float initial_span;
+        private float D_x;
+        private float D_y;
+
+
 
         @Override
         public boolean onScaleBegin(ScaleGestureDetector detector) {
 
-            int focus_x = (int) detector.getFocusX();
-            int focus_y = (int) detector.getFocusY();
+            float focus_x = detector.getFocusX();
+            float focus_y = detector.getFocusY();
 
 
-            if(dst.contains(focus_x, focus_y)) {
+            if(dst.contains((int) focus_x, (int) focus_y)) {
 
                 scaling = true;
                 initial_l = l;
-                initial_x = x;
-                initial_y = y;
+                initial_span = detector.getCurrentSpan();
+                D_x = focus_x - (float) x;
+                D_y = focus_y - (float) y;
 
             }
 
@@ -299,28 +336,28 @@ public class Map extends View {
             if(scaling) {
 
 
-                int span      = (int) detector.getCurrentSpan();
-                int prev_span = (int) detector.getPreviousSpan();
+                float span = detector.getCurrentSpan();
+
+                float ratio = (span / initial_span);
+
+                float next_l   =  ratio * initial_l;
+                float next_D_x =  ratio * D_x;
+                float next_D_y =  ratio * D_y;
+
+                float next_x   = detector.getFocusX() - next_D_x;
+                float next_y   = detector.getFocusY() - next_D_y;
+
+                l = (int) next_l;
+                x = (int) next_x;
+                y = (int) next_y;
 
 
-                if(span > prev_span)
-
-                    l = initial_l + span;
-
-                else
-
-                    l = initial_l - span;
-
+                nodes.updatePositions(current_floor, x, y, l);
+                edges.updateWidth(l);
+                invalidate();
             }
 
             return true;
-        }
-
-
-
-        @Override
-        public void onScaleEnd(ScaleGestureDetector detector) {
-            super.onScaleEnd(detector);
         }
 
 

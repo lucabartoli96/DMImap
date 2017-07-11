@@ -81,7 +81,8 @@
                 android:elegantTextHeight="false"
                 android:ems="10"
                 android:hint="Specifica destinazione"
-                android:inputType="text" />
+                android:inputType="text"
+                android:maxLength="30"/>
 
             <RadioGroup
                 android:id="@+id/type"

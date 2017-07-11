@@ -334,17 +334,17 @@ public final class MapR {
 
                         name_list.add(name, id);
 
-                        map_node = new NamedMapNode(id, x, y, name);
+                        map_node = new NamedMapNode(id, x, y, name, i);
 
 
                     } else if(map_node_json.has("stairs")) {
 
                         boolean up = map_node_json.getBoolean("stairs");
-                        map_node = new StairsMapNode(id, x, y, up, stairs[up ? 0 : 1]);
+                        map_node = new StairsMapNode(id, x, y, up, stairs[up ? 0 : 1], i);
 
                     } else {
 
-                        map_node = new CrossMapNode(id, x, y);
+                        map_node = new CrossMapNode(id, x, y, i);
 
                     }
 
