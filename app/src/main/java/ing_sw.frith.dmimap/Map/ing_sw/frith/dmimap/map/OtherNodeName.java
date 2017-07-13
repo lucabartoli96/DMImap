@@ -1,7 +1,6 @@
 package ing_sw.frith.dmimap.map;
 
 
-import java.util.ArrayList;
 
 public class OtherNodeName extends MapNodeName {
 

@@ -1,6 +1,8 @@
 package ing_sw.frith.dmimap.map;
 
 
+
+
 public abstract class MapNodeName {
 
     private static int PROG_ID = 0;

@@ -1,14 +1,12 @@
 package ing_sw.frith.dmimap;
 
 
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import ing_sw.frith.dmimap.map.Map;
 import ing_sw.frith.dmimap.map.MapNode;
 
-import static android.content.ContentValues.TAG;
 
 public class StartNavigation implements View.OnClickListener {
 

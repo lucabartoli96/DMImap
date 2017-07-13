@@ -2,15 +2,12 @@ package ing_sw.frith.dmimap;
 
 
 import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import com.google.zxing.Result;
 import ing_sw.frith.dmimap.map.NamedMapNode;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
-
-import static android.content.ContentValues.TAG;
 
 
 
@@ -128,7 +125,6 @@ public class Position implements View.OnClickListener, ZXingScannerView.ResultHa
             int    type  = Character.getNumericValue(scanned.charAt(0));
             String input = scanned.substring(2);
 
-            Log.d(TAG, "handleResult: type: " + type + " input: " + input);
 
             if(name_list.matches(type, input)) {
 
@@ -162,8 +158,6 @@ public class Position implements View.OnClickListener, ZXingScannerView.ResultHa
 
         switchView();
 
-
-        Log.d(TAG, "result: " + scanned + "position: " + position);
 
     }
 

@@ -48,7 +48,6 @@ public abstract class MapNode extends RectF implements UpdatableMapItem {
 
 
 
-    //abstract methods
     public abstract void draw(Canvas canvas, Paint nodePaint);
     public abstract void onClick(OnClickMapNodeHandler handler);
 
@@ -74,8 +73,6 @@ public abstract class MapNode extends RectF implements UpdatableMapItem {
 
 
 
-
-    //Some getters
 
     public int getId() {
 
@@ -121,8 +118,6 @@ public abstract class MapNode extends RectF implements UpdatableMapItem {
 
     }
 
-
-    //Toggle functions for color and state
 
 
 

@@ -4,9 +4,7 @@ package ing_sw.frith.dmimap.map;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.Log;
 
-import static android.content.ContentValues.TAG;
 
 
 public class StairsMapNode extends MapNode {

@@ -10,13 +10,10 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONStringer;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Scanner;
 
 import ing_sw.frith.dmimap.map.ClassRoomNodeName;
@@ -30,6 +27,8 @@ import ing_sw.frith.dmimap.map.NamedMapNode;
 import ing_sw.frith.dmimap.map.OfficeNodeName;
 import ing_sw.frith.dmimap.map.OtherNodeName;
 import ing_sw.frith.dmimap.map.StairsMapNode;
+
+
 
 import static android.content.ContentValues.TAG;
 
@@ -119,7 +118,6 @@ public final class MapR {
 
         }
 
-        Log.d(TAG, "createParser: MapR created!");
 
         return string.toString();
 
@@ -149,7 +147,6 @@ public final class MapR {
 
         }
 
-        Log.d(TAG, "MapR: json object created.");
 
     }
 
@@ -174,8 +171,6 @@ public final class MapR {
             parseError("Can't find floors_number!\n", e);
         }
 
-
-        Log.d(TAG, "getFloorsNumber: " + retval);
 
         FLOORS_NUMBER = retval;
 
@@ -368,8 +363,6 @@ public final class MapR {
         }
 
 
-        Log.d(TAG, "getNodes: " + nodes.toString());
-
         return new MapNodeList(nodes);
 
     }
@@ -497,8 +490,6 @@ public final class MapR {
 
         }
 
-        Log.d(TAG, "getEdges: " + edges.toString());
-
 
         return new MapEdgeList(edges);
 
@@ -514,8 +505,6 @@ public final class MapR {
 
 
     public static Graph getGraph() {
-
-        Log.d(TAG, "getGraph: " + graph.toString());
 
         return new Graph(graph.size() , graph);
 

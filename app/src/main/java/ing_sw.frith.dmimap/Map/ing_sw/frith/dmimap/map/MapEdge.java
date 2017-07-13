@@ -3,6 +3,7 @@ package ing_sw.frith.dmimap.map;
 
 import android.graphics.Color;
 
+
 public class MapEdge {
 
 
@@ -76,11 +77,13 @@ public class MapEdge {
     }
 
 
+
     public boolean isVisible() {
 
         return visible;
 
     }
+
 
     @Override
     public String toString() {

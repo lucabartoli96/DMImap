@@ -1,10 +1,10 @@
 package ing_sw.frith.dmimap;
 
-import android.util.Log;
+
 
 import java.util.ArrayList;
 
-import static android.content.ContentValues.TAG;
+
 
 
 public class Graph {
@@ -59,8 +59,6 @@ public class Graph {
 
             u = Q.extract_min();
 
-            Log.d(TAG, "pairShortestPath: min: " + u + "d[u]: " + d[u]);
-
             if(u == des) {
 
                 flag = true;
@@ -73,8 +71,6 @@ public class Graph {
                     relax(u, vertex, d, c, p);
 
                 }
-
-                Log.d(TAG, "pairShortestPath: " + print(d));
 
             }
 
@@ -95,29 +91,9 @@ public class Graph {
 
         }
 
-        Log.d(TAG, "pairShortestPath: length: " + path.length + "\npath: " + print(path));
-
         return path;
     }
 
-
-
-
-
-    private String print(int[] d) {
-
-
-        StringBuilder string = new StringBuilder();
-
-        for(int i= 0; i < d.length; i++) {
-
-            string.append(",").append(d[i]);
-
-        }
-
-
-        return string.toString();
-    }
 
 
 
@@ -128,18 +104,6 @@ public class Graph {
 
         int v = vertex.getV(), w = vertex.W();
 
-        String msg = "Relax: " +
-
-                "\n" + "u:" + u +
-                "\n" + "d[u]:" + d[u] +
-                "\n" + "v:" + v +
-                "\n" + "d[v]:" + d[v]+
-                "\n" + "w:" + w +
-                "\n" + "d[u] + w" + (d[u] + w) +
-                "\n" + "cond:" + (d[v] > d[u] + w);
-
-
-        Log.d(TAG, "relax: " + msg);
 
         int sum;
 
@@ -163,13 +127,6 @@ public class Graph {
 
         }
 
-
-        msg = "Relax: " +
-
-                "\n" + "v:" + v +
-                "\n" + "d[v]:" + d[v];
-
-        Log.d(TAG, "after-relax: " + msg);
 
 
     }
@@ -215,7 +172,6 @@ public class Graph {
 
             int min_v = -1, min_i = -1, min = Integer.MAX_VALUE;
 
-            Log.d(TAG, "extract_min: " + print(d));
 
             for(int i = 0; i < indexes.size(); i++ ) {
 
